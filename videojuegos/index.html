@@ -643,7 +643,7 @@
     }
 
     /* ========================================================
-       2. GESTIÓN PWA
+       2. GESTIÓN PWA CON INSTALACIÓN AUTOMÁTICA EN ANDROID
        ======================================================== */
     const pwaModal = document.getElementById('pwaModal');
     const btnInstallPwa = document.getElementById('btnInstallPwa');
@@ -652,11 +652,54 @@
     const pwaManualHelp = document.getElementById('pwaManualHelp');
 
     let deferredPrompt = null;
+    let autoPromptFired = false;
+
+    async function triggerPwaInstall(isAuto = false) {
+      if (!deferredPrompt) {
+        if (!isAuto && pwaManualHelp) {
+          pwaManualHelp.style.display = 'block';
+        }
+        return;
+      }
+
+      try {
+        const promptEvent = deferredPrompt;
+        promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          localStorage.setItem('belen_pwa_installed', 'true');
+          pwaModal.classList.add('hidden');
+          if (btnHeaderInstall) btnHeaderInstall.style.display = 'none';
+        }
+        deferredPrompt = null;
+      } catch (err) {
+        console.log('Prompt error:', err);
+      }
+    }
+
+    // Capturar el evento de instalación de Android/Chrome
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       if (btnHeaderInstall) btnHeaderInstall.style.display = 'inline-block';
+
+      // Disparar de inmediato en Android si el navegador lo permite
+      if (!localStorage.getItem('belen_pwa_installed') && !autoPromptFired) {
+        autoPromptFired = true;
+        setTimeout(() => {
+          triggerPwaInstall(true);
+        }, 600);
+      }
     });
+
+    // En Android, los navegadores a veces requieren un primer toque (user gesture).
+    // Al primer toque que haga ella en la pantalla o en el aviso, se despliega automáticamente:
+    window.addEventListener('pointerdown', () => {
+      if (deferredPrompt && !autoPromptFired && !localStorage.getItem('belen_pwa_installed')) {
+        autoPromptFired = true;
+        triggerPwaInstall(true);
+      }
+    }, { once: true });
 
     window.addEventListener('appinstalled', () => {
       localStorage.setItem('belen_pwa_installed', 'true');
@@ -669,25 +712,20 @@
       pwaModal.classList.add('hidden');
     }
 
-    async function triggerPwaInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          localStorage.setItem('belen_pwa_installed', 'true');
-          pwaModal.classList.add('hidden');
-          if (btnHeaderInstall) btnHeaderInstall.style.display = 'none';
-        }
-        deferredPrompt = null;
-      } else {
-        if (pwaManualHelp) pwaManualHelp.style.display = 'block';
-      }
+    btnInstallPwa.addEventListener('click', (e) => {
+      e.stopPropagation();
+      triggerPwaInstall(false);
+    });
+
+    if (btnHeaderInstall) {
+      btnHeaderInstall.addEventListener('click', (e) => {
+        e.stopPropagation();
+        triggerPwaInstall(false);
+      });
     }
 
-    btnInstallPwa.addEventListener('click', triggerPwaInstall);
-    if (btnHeaderInstall) btnHeaderInstall.addEventListener('click', triggerPwaInstall);
-
-    btnPlayBrowser.addEventListener('click', () => {
+    btnPlayBrowser.addEventListener('click', (e) => {
+      e.stopPropagation();
       pwaModal.classList.add('hidden');
       if (btnHeaderInstall && !localStorage.getItem('belen_pwa_installed')) {
         btnHeaderInstall.style.display = 'inline-block';

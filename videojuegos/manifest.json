@@ -1,14 +1,14 @@
 {
-  "id": "belen-arcade-game-platform",
+  "id": "belen-arcade-platform",
   "name": "Belén Arcade · El Regalo del Desarrollador",
   "short_name": "Belén Arcade",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0d091a",
   "theme_color": "#ec4899",
-  "description": "Plataforma de videojuegos 100% offline diseñada para Asrti Belen Paz",
+  "description": "Plataforma de videojuegos 100% offline diseñada especialmente para Asrti Belen Paz",
   "icons": [
     {
       "src": "icon-192.png",
@@ -34,5 +34,22 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-mobile.png",
+      "sizes": "720x1612",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Belén Arcade en tu celular"
+    },
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Belén Arcade en tu computadora"
+    }
+  ],
+  "categories": ["games", "entertainment"]
 }

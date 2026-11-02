@@ -1,4 +1,4 @@
-const CACHE_NAME = 'belen-arcade-v3';
+const CACHE_NAME = 'belen-arcade-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,8 @@ const ASSETS = [
   './icon-512.png',
   './icon-maskable-192.png',
   './icon-maskable-512.png',
+  './screenshot-mobile.png',
+  './screenshot-desktop.png',
   './icon.jpeg'
 ];
 
