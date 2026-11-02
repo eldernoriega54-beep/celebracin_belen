@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>¡Feliz Cumpleaños Asrti Belen Paz!</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="mobile.css"
+      media="only screen and (max-width: 768px)"
+    />
+    <style>
+      .regalo-banner {
+        position: fixed;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 900;
+        background: rgba(15, 10, 30, 0.92);
+        backdrop-filter: blur(12px);
+        padding: 10px 24px;
+        border-radius: 40px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.4);
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: #ffd700;
+        font-weight: 600;
+        text-align: center;
+        border: 2px solid #ffd700;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .regalo-banner a {
+        background: linear-gradient(135deg, #ec4899, #f43f5e);
+        color: #fff;
+        text-decoration: none;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 13px;
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.5);
+        transition: transform 0.2s;
+      }
+      .regalo-banner a:hover {
+        transform: scale(1.06);
+      }
+      .instruccion-vela {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.75);
+        color: #fff;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        z-index: 850;
+        pointer-events: none;
+        animation: pulse 2s infinite;
+      }
+
+      .carta-btn-container {
+        margin-top: 22px;
+        text-align: center;
+      }
+
+      .btn-regalo-desarrollador-carta {
+        display: inline-block;
+        padding: 14px 26px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #f59e0b 100%);
+        background-size: 200% 200%;
+        color: #fff !important;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+        border: 2px solid #fff;
+        cursor: pointer;
+        animation: pulseCartaBtn 2s infinite alternate ease-in-out;
+        transition: transform 0.25s ease;
+      }
+
+      @keyframes pulseCartaBtn {
+        0% { transform: scale(1); box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5); }
+        100% { transform: scale(1.05); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.7); }
+      }
+
+      .btn-regalo-desarrollador-carta:hover {
+        transform: scale(1.08);
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; transform: translateX(-50%) scale(1.04); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Banner de navegación -->
+    <div class="regalo-banner">
+      <span>🎁 Regalo del Desarrollador para <strong id="bannerNombre">Asrti Belen Paz</strong></span>
+      <a href="../videojuegos/index.html" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; font-weight: bold; padding: 6px 14px; border-radius: 20px; text-decoration: none; box-shadow: 0 2px 10px rgba(236,72,153,0.4);">🎮 Videojuegos Arcade</a>
+      <a href="../index.html">⬅ Ir a la Animación</a>
+    </div>
+
+    <div class="instruccion-vela">
+      ✨ ¡Haz clic en la llama de la vela para soplarla! 🎂
+    </div>
+
+    <!--Confeti Atras-->
+    <canvas id="canvas1"></canvas>
+
+    <div class="contenedor">
+      <!-- PortaRetrato -->
+      <div class="portaretrato-torta-caja">
+        <div class="portaretrato">
+          <div class="marco">
+            <img src="recursos/cumpleañero.png" alt="Foto Asrti Belen Paz" />
+          </div>
+          <div class="soporte-marco"></div>
+        </div>
+
+        <!--Torta De Cumpleaños-->
+        <div class="torta-cumpleaños">
+          <div class="torta">
+            <div class="chocolate"></div>
+          </div>
+          <div class="vela"></div>
+          <div class="llama"></div>
+        </div>
+
+        <!--Caja De Regalo-->
+        <div class="caja-wrapper">
+          <div class="caja">
+            <div class="cinta-de-regalo">
+              <div class="cinta-de-regalo-izquierda"></div>
+              <div class="cinta-de-regalo-derecha"></div>
+              <div class="cinta-de-regalo-centro"></div>
+            </div>
+            <div class="regalos">
+              <div class="regalo-sombra"></div>
+            </div>
+            <div class="regalo"></div>
+            <div class="icono-estrella estrella1"></div>
+            <div class="icono-estrella estrella2"></div>
+            <div class="icono-estrella estrella3"></div>
+            <div class="icono-estrella estrella4"></div>
+            <div class="icono-estrella estrella5"></div>
+          </div>
+        </div>
+
+        <!--Mensaje Feliz Cumpleaños-->
+        <div class="happy-birthday">Happy Birthday</div>
+      </div>
+
+      <!--Mesa-->
+      <div class="soporte"></div>
+    </div>
+
+    <!-- Carta Modal -->
+    <div class="modal-carta" id="modalCarta">
+      <div class="contenido-carta">
+        <div class="carta">
+          <h2 id="cartaSaludo">Querida Asrti Belen Paz ✨</h2>
+          <p id="cartaCuerpo">
+            En este día tan especial quiero desearte el más mágico y maravilloso de los cumpleaños. Que cada uno de tus sueños se cumpla, que la alegría y la paz siempre te acompañen y que la vida te sonría en cada paso. ¡Que disfrutes al máximo tu día y tu delicioso pastel! 🎂🎉💖
+          </p>
+          <p class="firma">Con todo el cariño del mundo,<br />✨ El Desarrollador ✨</p>
+          <div class="carta-btn-container">
+            <a href="../videojuegos/index.html" class="btn-regalo-desarrollador-carta">
+              🎁 Ver el regalo que te dejó el desarrollador ✨
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Confeti Delante-->
+    <canvas id="canvas2"></canvas>
+
+    <!--Todo Oscuro y Audios-->
+    <audio id="soplido" src="recursos/soplar1.mp3" preload="auto"></audio>
+    <audio
+      id="cancion"
+      src="recursos/cancion.mp3"
+      preload="auto"
+    ></audio>
+    <div class="overlay"></div>
+
+    <script src="Confeti.js"></script>
+    <script src="Confeti2.js"></script>
+    <script src="Sorpresa.js"></script>
+    <script>
+      // Evitar que el clic dentro de la carta cierre el modal
+      document.querySelector('.contenido-carta').addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+
+      // Leer parámetro de URL si existe nombre y apellido
+      const params = new URLSearchParams(window.location.search);
+      const nombreParam = params.get('nombre');
+      const apellidoParam = params.get('apellido');
+      if (nombreParam || apellidoParam) {
+        const nombreCompleto = `${nombreParam || ''} ${apellidoParam || ''}`.trim();
+        if (nombreCompleto) {
+          document.getElementById('bannerNombre').textContent = nombreCompleto;
+          document.getElementById('cartaSaludo').textContent = `Querida ${nombreCompleto} ✨`;
+          document.title = `¡Feliz Cumpleaños ${nombreCompleto}!`;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "Belén Arcade - Regalo del Desarrollador",
+  "short_name": "BelenArcade",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d091a",
+  "theme_color": "#ec4899",
+  "description": "Plataforma de videojuegos offline creada especialmente para Asrti Belen Paz",
+  "icons": [
+    {
+      "src": "./icon.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>¡Feliz Cumpleaños Asrti Belen Paz! ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #03040c;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+    }
+
+    #stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* CONTENEDOR SVG CON CÁMARA DINÁMICA POR VIEWBOX A 60 FPS */
+    #worldSvg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      will-change: viewBox;
+    }
+
+    /* CAPA DE FUEGOS ARTIFICIALES Y TEXTO CALIGRÁFICO */
+    #fxCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* MODAL DE CARTA EN SVG GRANDE */
+    #envelopeModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(16, 8, 28, 0.94) 0%, rgba(3, 2, 8, 0.98) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #envelopeModal.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.1);
+      pointer-events: none;
+    }
+
+    .svg-envelope-wrapper {
+      width: 92%;
+      max-width: 580px;
+      perspective: 1200px;
+      text-align: center;
+      position: relative;
+    }
+
+    .envelope-svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 20px 50px rgba(0,0,0,0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.25));
+    }
+
+    /* CARTA DESPLEGABLE DENTRO DEL SOBRE */
+    .letter-paper {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -40%);
+      width: 82%;
+      background: linear-gradient(135deg, #fffdfa 0%, #fff4e6 100%);
+      border-radius: 18px;
+      padding: 28px 24px;
+      color: #331526;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      border: 1px solid #fed7aa;
+      animation: paperFloat 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes paperFloat {
+      0% { transform: translate(-50%, -42%); }
+      100% { transform: translate(-50%, -38%); }
+    }
+
+    .letter-paper h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 38px;
+      color: #be185d;
+      margin-bottom: 2px;
+      line-height: 1.1;
+    }
+
+    .letter-paper .recipient {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #9d174d;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .letter-paper p {
+      font-size: 15px;
+      color: #4b5563;
+      margin-bottom: 22px;
+      line-height: 1.5;
+      font-weight: 500;
+      min-height: 45px;
+    }
+
+    .letter-btns-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      min-height: 52px;
+    }
+
+    .btn-action {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #f59e0b 100%);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(244, 63, 94, 0.45);
+    }
+    .btn-yes:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 28px rgba(244, 63, 94, 0.7);
+    }
+
+    .btn-no {
+      background: #e5e7eb;
+      color: #4b5563;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), left 0.2s, top 0.2s;
+    }
+
+    /* TARJETA ELEGANTE FINAL TRAS LA EXPLOSIÓN */
+    #celebrationCard {
+      position: fixed;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      opacity: 0;
+      pointer-events: none;
+      width: 90%;
+      max-width: 660px;
+      background: rgba(12, 7, 24, 0.86);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 215, 0, 0.6);
+      border-radius: 26px;
+      padding: 28px 24px;
+      text-align: center;
+      z-index: 80;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 40px rgba(255, 215, 0, 0.3);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
+    }
+
+    #celebrationCard.active {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .card-grand-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 52px;
+      background: linear-gradient(45deg, #ffd700, #ff80bf, #ffffff, #ffd700);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shineGrad 4s linear infinite;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    @keyframes shineGrad {
+      to { background-position: 200% center; }
+    }
+
+    .card-dedication-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: #ffd166;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 20px rgba(255, 209, 102, 0.6);
+    }
+
+    .card-desc {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #f3f4f6;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    .card-buttons-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .btn-developer-gift {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 32px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%);
+      background-size: 200% 200%;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.6);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      animation: pulseBtn 2s infinite alternate ease-in-out;
+      transition: all 0.3s ease;
+    }
+
+    .btn-direct-cake {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 26px;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1.5px solid rgba(255, 215, 0, 0.6);
+      color: #ffd700;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .btn-direct-cake:hover {
+      background: rgba(255, 215, 0, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    }
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.6);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      animation: pulseBtn 2s infinite alternate ease-in-out;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes pulseBtn {
+      0% { transform: scale(1); box-shadow: 0 10px 25px rgba(236, 72, 153, 0.5); }
+      100% { transform: scale(1.05); box-shadow: 0 14px 40px rgba(245, 158, 11, 0.8); }
+    }
+
+    .btn-developer-gift:hover {
+      transform: scale(1.09) translateY(-2px);
+      filter: brightness(1.15);
+    }
+
+    .replay-link {
+      display: inline-block;
+      margin-top: 14px;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 13px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .replay-link:hover {
+      color: #ffd700;
+    }
+
+    /* CONTROL DE AUDIO */
+    .audio-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 120;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .audio-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <button class="audio-btn" id="audioBtn" title="Música On/Off">🎵</button>
+
+  <audio id="bgMusic" src="musica/cancion.mp3" preload="auto" loop></audio>
+  <audio id="sfxSoplar" src="efectos de sonidos/soplar1.mp3" preload="auto"></audio>
+
+  <!-- MODAL INICIAL CON CARTA SVG GRANDE -->
+  <div id="envelopeModal">
+    <div class="svg-envelope-wrapper">
+      <!-- SOBRE SVG GRANDE -->
+      <svg class="envelope-svg" viewBox="0 0 600 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="envGradBack" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2d174a"/>
+            <stop offset="100%" stop-color="#190d2e"/>
+          </linearGradient>
+          <linearGradient id="envGradFront" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3d2066"/>
+            <stop offset="100%" stop-color="#261340"/>
+          </linearGradient>
+          <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd700"/>
+            <stop offset="50%" stop-color="#ffb703"/>
+            <stop offset="100%" stop-color="#fb8500"/>
+          </linearGradient>
+          <filter id="envGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#ec4899" flood-opacity="0.3"/>
+          </filter>
+        </defs>
+
+        <!-- Fondo del sobre -->
+        <rect x="20" y="50" width="560" height="340" rx="20" fill="url(#envGradBack)" stroke="url(#goldBorder)" stroke-width="3" filter="url(#envGlow)"/>
+
+        <!-- Solapa abierta hacia arriba -->
+        <polygon points="20,50 300,10 580,50 300,170" fill="#201138" stroke="url(#goldBorder)" stroke-width="2" opacity="0.6"/>
+
+        <!-- Laterales interiores del sobre -->
+        <polygon points="20,50 300,240 20,390" fill="url(#envGradFront)" opacity="0.95"/>
+        <polygon points="580,50 300,240 580,390" fill="url(#envGradFront)" opacity="0.95"/>
+        
+        <!-- Solapa frontal inferior -->
+        <polygon points="20,390 300,210 580,390" fill="url(#envGradFront)" stroke="url(#goldBorder)" stroke-width="2.5"/>
+
+        <!-- Sello dorado de cera -->
+        <circle cx="300" cy="210" r="34" fill="url(#goldBorder)"/>
+        <circle cx="300" cy="210" r="28" fill="#ffd700" stroke="#b45309" stroke-width="2"/>
+        <text x="300" y="218" text-anchor="middle" font-size="22" font-family="'Great Vibes', cursive" fill="#78350f" font-weight="bold">A</text>
+      </svg>
+
+      <!-- PAPEL DE LA CARTA INTERACTIVA -->
+      <div class="letter-paper" id="letterPaper">
+        <h2>Feliz Cumpleaños</h2>
+        <div class="recipient">Para: Asrti Belen Paz ✨</div>
+        <p id="questionText">¿Deseas abrir tu carta de cumpleaños?</p>
+        <div class="letter-btns-box">
+          <button class="btn-action btn-yes" id="btnYes">¡Sí, abrir! 💖</button>
+          <button class="btn-action btn-no" id="btnNo">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIENZO DE ESCENA PRINCIPAL -->
+  <div id="stage">
+    <!-- MUNDO SVG VERTICAL GRANDE: 1400 ancho x 3200 alto -->
+    <svg id="worldSvg" viewBox="0 0 1400 3200" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <!-- CIELO GRADIENTE CONTINUO (Espacio exterior hasta la pradera) -->
+        <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#020308" />
+          <stop offset="15%" stop-color="#06091e" />
+          <stop offset="35%" stop-color="#121035" />
+          <stop offset="55%" stop-color="#1b1245" />
+          <stop offset="75%" stop-color="#281354" />
+          <stop offset="92%" stop-color="#3d185e" />
+          <stop offset="100%" stop-color="#171833" />
+        </linearGradient>
+
+        <!-- LUNA RESPLANDOR -->
+        <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+          <stop offset="35%" stop-color="#fff7cd" stop-opacity="0.95"/>
+          <stop offset="70%" stop-color="#ffd166" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#ffb703" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- LLAMA DE FUEGO -->
+        <radialGradient id="fireGrad" cx="50%" cy="80%" r="65%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="25%" stop-color="#ffe600"/>
+          <stop offset="60%" stop-color="#ff5400"/>
+          <stop offset="90%" stop-color="#ff0055"/>
+          <stop offset="100%" stop-color="#79001b" stop-opacity="0"/>
+        </radialGradient>
+
+        <radialGradient id="arrowFireGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="35%" stop-color="#ffe600"/>
+          <stop offset="75%" stop-color="#ff3c00"/>
+          <stop offset="100%" stop-color="#ff0000" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- CÉSPED -->
+        <linearGradient id="grassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2b7a3a"/>
+          <stop offset="30%" stop-color="#185124"/>
+          <stop offset="100%" stop-color="#09220f"/>
+        </linearGradient>
+
+        <!-- MONTAÑAS -->
+        <linearGradient id="mountGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#1b1738"/>
+          <stop offset="100%" stop-color="#0b081b"/>
+        </linearGradient>
+        <linearGradient id="mountGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#151d3b"/>
+          <stop offset="100%" stop-color="#080e22"/>
+        </linearGradient>
+
+        <filter id="glowFilt" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="8" result="b1"/>
+          <feMerge>
+            <feMergeNode in="b1"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <filter id="heavyGlow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="18" result="b1"/>
+          <feMerge>
+            <feMergeNode in="b1"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- FONDO COMPLETO -->
+      <rect width="1400" height="3200" fill="url(#skyGradient)" />
+
+      <!-- CAMPO DE ESTRELLAS -->
+      <g id="starsLayer"></g>
+
+      <!-- NUBES Y NEBULOSAS SUAVES EN EL CIELO -->
+      <g opacity="0.35">
+        <path d="M-100,1200 Q300,1100 700,1250 T1500,1180 L1500,1400 L-100,1400 Z" fill="#4a1575" />
+        <path d="M-100,1650 Q450,1500 900,1680 T1500,1580 L1500,1850 L-100,1850 Z" fill="#2d1354" />
+      </g>
+
+      <!-- LA GRAN LUNA (A la altura de y=520, donde la flecha ascenderá) -->
+      <g id="lunaGroup" transform="translate(700, 520)">
+        <!-- Gran resplandor de la luna -->
+        <circle cx="0" cy="0" r="160" fill="url(#moonGlow)" filter="url(#heavyGlow)" opacity="0.9" />
+        <!-- Disco lunar -->
+        <circle cx="0" cy="0" r="75" fill="#fffdf0" />
+        <!-- Cráteres suaves -->
+        <circle cx="-22" cy="-18" r="14" fill="#e9e1c4" opacity="0.75" />
+        <circle cx="26" cy="22" r="20" fill="#e9e1c4" opacity="0.6" />
+        <circle cx="-16" cy="32" r="11" fill="#e9e1c4" opacity="0.5" />
+        <circle cx="34" cy="-24" r="12" fill="#e9e1c4" opacity="0.6" />
+      </g>
+
+      <!-- MONTAÑAS DE FONDO LEJANAS (y=2450) -->
+      <path d="M-100,2500 Q200,2250 550,2460 T1150,2380 T1500,2480 L1500,3200 L-100,3200 Z" fill="url(#mountGrad1)" />
+
+      <!-- MONTAÑAS CERCANAS (y=2620) -->
+      <path d="M-100,2680 Q350,2450 750,2620 T1500,2590 L1500,3200 L-100,3200 Z" fill="url(#mountGrad2)" />
+
+      <!-- COLINA DE CÉSPED DELANTERA (y=2830) -->
+      <path d="M-100,2830 Q350,2770 700,2800 T1500,2810 L1500,3200 L-100,3200 Z" fill="url(#grassGrad)" />
+      <g id="grassBladesGroup"></g>
+
+      <!-- FOGATA / LLAMA DE FUEGO EN EL SUELO (x=530, y=2830) -->
+      <g id="campfireGroup" transform="translate(530, 2830)">
+        <!-- Piedras del fogón -->
+        <ellipse cx="-26" cy="8" rx="14" ry="7" fill="#3f3f50" />
+        <ellipse cx="26" cy="8" rx="14" ry="7" fill="#333342" />
+        <ellipse cx="0" cy="12" rx="20" ry="8" fill="#242430" />
+        <ellipse cx="-14" cy="11" rx="12" ry="6" fill="#3a3a4c" />
+        <ellipse cx="14" cy="11" rx="12" ry="6" fill="#363646" />
+        <!-- Leños de madera -->
+        <rect x="-28" y="-3" width="56" height="10" rx="4" fill="#582a13" transform="rotate(-18)" />
+        <rect x="-28" y="-3" width="56" height="10" rx="4" fill="#6a3518" transform="rotate(20)" />
+        <!-- Brasa y llama viva de fuego -->
+        <ellipse cx="0" cy="2" rx="22" ry="7" fill="#ff4d00" filter="url(#glowFilt)" />
+        <g id="flameGroup" filter="url(#glowFilt)">
+          <path id="flameOuter" d="M0,-60 C18,-38 28,-16 18,2 C10,12 -10,12 -18,2 C-28,-16 -18,-38 0,-60 Z" fill="url(#fireGrad)" />
+          <path id="flameInner" d="M0,-36 C10,-22 14,-10 9,0 C5,6 -5,6 -9,0 C-14,-10 -10,-22 0,-36 Z" fill="#ffffff" opacity="0.9" />
+        </g>
+        <g id="fireSparksGroup"></g>
+      </g>
+
+      <!-- ARCO EN EL SUELO (x=730, y=2840) -->
+      <g id="groundBow" transform="translate(730, 2840) rotate(32)">
+        <path d="M-30,-6 Q0,-20 30,-6" fill="none" stroke="#8b4513" stroke-width="5" stroke-linecap="round" />
+        <line x1="-30" y1="-6" x2="30" y2="-6" stroke="#fef08a" stroke-width="2" />
+      </g>
+
+      <!-- PERSONAJE DE PALITOS (STICKMAN ARTICULADO POR JS A 60 FPS) -->
+      <g id="stickman">
+        <!-- Cabeza con trazo idéntico a la imagen -->
+        <circle id="smHead" cx="660" cy="2650" r="28" fill="#ffffff" stroke="#000000" stroke-width="8" />
+        <!-- Torso -->
+        <line id="smTorso" x1="660" y1="2678" x2="660" y2="2760" stroke="#000000" stroke-width="8" stroke-linecap="round" />
+        <!-- Brazo Izquierdo -->
+        <polyline id="smLeftArm" points="660,2700 635,2730 620,2750" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+        <circle id="smLeftHand" cx="620" cy="2750" r="5" fill="#000000" />
+        <!-- Brazo Derecho (Saludando arriba al inicio como la foto) -->
+        <polyline id="smRightArm" points="660,2700 688,2680 705,2635" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+        <circle id="smRightHand" cx="705" cy="2635" r="5" fill="#000000" />
+        <!-- Pierna Izquierda -->
+        <polyline id="smLeftLeg" points="660,2760 635,2795 622,2832 608,2835" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Pierna Derecha -->
+        <polyline id="smRightLeg" points="660,2760 665,2798 666,2832 686,2835" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- ARCO SOSTENIDO EN MANO -->
+        <g id="smHeldBow" opacity="0">
+          <path id="smBowWood" d="M-10,-45 Q20,0 -10,45" fill="none" stroke="#8b4513" stroke-width="5" stroke-linecap="round" />
+          <path id="smBowString" d="M-10,-45 L-10,45" stroke="#fef08a" stroke-width="2" />
+          <!-- Flecha colocada -->
+          <g id="smNockedArrow" opacity="0">
+            <line x1="-35" y1="0" x2="35" y2="0" stroke="#d4a373" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M-35,-5 L-25,0 L-35,5" fill="none" stroke="#ef4444" stroke-width="2.5" />
+            <polygon points="35,-5 45,0 35,5" fill="#cbd5e1" />
+            <!-- Fuego en la punta -->
+            <circle id="smTipFlame" cx="42" cy="0" r="10" fill="url(#arrowFireGrad)" filter="url(#glowFilt)" opacity="0" />
+          </g>
+        </g>
+      </g>
+
+      <!-- FLECHA VOLADORA EN ASCENSO -->
+      <g id="flyingArrow" opacity="0" transform="translate(660, 2670) rotate(-90)">
+        <g id="arrowTrail"></g>
+        <line x1="-40" y1="0" x2="40" y2="0" stroke="#d4a373" stroke-width="4.5" stroke-linecap="round" />
+        <path d="M-40,-7 L-28,0 L-40,7" fill="none" stroke="#ef4444" stroke-width="3.5" />
+        <path d="M-48,-6 L-36,0 L-48,6" fill="none" stroke="#f59e0b" stroke-width="3" />
+        <polygon points="40,-7 54,0 40,7" fill="#e2e8f0" />
+        <ellipse cx="48" cy="0" rx="22" ry="14" fill="url(#arrowFireGrad)" filter="url(#heavyGlow)" />
+        <ellipse cx="52" cy="0" rx="12" ry="7" fill="#ffffff" />
+      </g>
+
+      <!-- TEXTO CALIGRÁFICO ESCRIBÍENDOSE EN EL CIELO CON TRAZOS CELESTIALES -->
+      <g id="skyWritingGroup" opacity="0">
+        <text x="700" y="320" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="78" fill="#ffd700" filter="url(#heavyGlow)" letter-spacing="2">¡Feliz Cumpleaños!</text>
+        <text x="700" y="420" text-anchor="middle" font-family="'Playfair Display', serif" font-size="52" font-weight="bold" fill="#ffffff" filter="url(#heavyGlow)" letter-spacing="3">✨ Asrti Belen Paz ✨</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- CANVAS PARA PARTICULAS Y FUEGOS ARTIFICIALES -->
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- TARJETA ELEGANTE FINAL -->
+  <div id="celebrationCard">
+    <div class="card-grand-title">¡Feliz Cumpleaños!</div>
+    <div class="card-dedication-name">✨ Asrti Belen Paz ✨</div>
+    <p class="card-desc">
+      Que cada estrella del firmamento ilumine tu camino con bendiciones, salud inquebrantable, alegría desbordante y sueños cumplidos. ¡Hoy el universo entero celebra contigo! 🎂💖
+    </p>
+    <div class="card-buttons-container">
+      <a href="pastel/index.html?nombre=Asrti%20Belen&apellido=Paz" class="btn-direct-cake">
+        <span>🎂 Ver directamente el Pastel de Cumpleaños</span>
+      </a>
+      <a href="pregunta.html" class="btn-developer-gift">
+        <span>🎁 Ver el regalo que te dejó el desarrollador ✨</span>
+      </a>
+    </div>
+    <div>
+      <span class="replay-link" id="replayBtn">↺ Revivir la animación</span>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. AUDIO Y SONIDOS
+       ========================================================================== */
+    const bgMusic = document.getElementById('bgMusic');
+    const sfxSoplar = document.getElementById('sfxSoplar');
+    const audioBtn = document.getElementById('audioBtn');
+    let isMuted = false;
+
+    audioBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      if (isMuted) {
+        bgMusic.pause();
+        audioBtn.textContent = '🔇';
+      } else {
+        bgMusic.play().catch(() => {});
+        audioBtn.textContent = '🎵';
+      }
+    });
+
+    let actx = null;
+    function getActx() {
+      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      return actx;
+    }
+
+    function soundBowRelease() {
+      try {
+        const ctx = getActx();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.28);
+        g.gain.setValueAtTime(0.4, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+      } catch(e) {}
+    }
+
+    function soundRocketAscend() {
+      try {
+        const ctx = getActx();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(260, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1600, ctx.currentTime + 3.2);
+        g.gain.setValueAtTime(0.12, ctx.currentTime);
+        g.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 2.8);
+        g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 3.2);
+        osc.start();
+        osc.stop(ctx.currentTime + 3.2);
+      } catch(e) {}
+    }
+
+    function soundBigExplosion() {
+      try {
+        const ctx = getActx();
+        const bSize = ctx.sampleRate * 2.0;
+        const buf = ctx.createBuffer(1, bSize, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < bSize; i++) d[i] = Math.random() * 2 - 1;
+
+        const noise = ctx.createBufferSource();
+        noise.buffer = buf;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1000, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 1.8);
+
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.9, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.9);
+
+        noise.connect(filter);
+        filter.connect(g);
+        g.connect(ctx.destination);
+        noise.start();
+        noise.stop(ctx.currentTime + 1.9);
+
+        // Campanas celestiales
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+        notes.forEach((freq, i) => {
+          setTimeout(() => {
+            const o = ctx.createOscillator();
+            const gn = ctx.createGain();
+            o.connect(gn);
+            gn.connect(ctx.destination);
+            o.type = 'sine';
+            o.frequency.setValueAtTime(freq, ctx.currentTime);
+            gn.gain.setValueAtTime(0.25, ctx.currentTime);
+            gn.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.0);
+            o.start();
+            o.stop(ctx.currentTime + 1.0);
+          }, i * 110);
+        });
+      } catch(e) {}
+    }
+
+    /* ==========================================================================
+       2. MUNDO SVG Y ELEMENTOS AMBIENTALES
+       ========================================================================== */
+    const starsLayer = document.getElementById('starsLayer');
+    for (let i = 0; i < 280; i++) {
+      const cx = Math.random() * 1400;
+      const cy = Math.random() * 2600;
+      const r = Math.random() * 2 + 0.6;
+      const op = Math.random() * 0.75 + 0.25;
+      const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      star.setAttribute('cx', cx);
+      star.setAttribute('cy', cy);
+      star.setAttribute('r', r);
+      star.setAttribute('fill', '#ffffff');
+      star.setAttribute('opacity', op);
+      starsLayer.appendChild(star);
+    }
+
+    const grassGroup = document.getElementById('grassBladesGroup');
+    for (let i = 0; i < 150; i++) {
+      const x = Math.random() * 1400;
+      const y = 2800 + Math.random() * 200;
+      const h = 12 + Math.random() * 20;
+      const blade = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      blade.setAttribute('d', `M${x},${y} Q${x + (Math.random() * 12 - 6)},${y - h} ${x + (Math.random() * 8 - 4)},${y - h}`);
+      blade.setAttribute('stroke', '#38b000');
+      blade.setAttribute('stroke-width', '2.5');
+      blade.setAttribute('stroke-linecap', 'round');
+      grassGroup.appendChild(blade);
+    }
+
+    // Chispas de la fogata
+    const fireSparksGroup = document.getElementById('fireSparksGroup');
+    for (let i = 0; i < 10; i++) {
+      const sp = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      sp.setAttribute('cx', Math.random() * 24 - 12);
+      sp.setAttribute('cy', Math.random() * 20 - 20);
+      sp.setAttribute('r', Math.random() * 2.5 + 1);
+      sp.setAttribute('fill', '#ffe600');
+      sp.setAttribute('opacity', Math.random() * 0.8 + 0.2);
+      fireSparksGroup.appendChild(sp);
+    }
+
+    /* ==========================================================================
+       3. SISTEMA DE CÁMARA A 60 FPS (LERP VIEWBOX INTERPOLATION)
+       ========================================================================== */
+    const worldSvg = document.getElementById('worldSvg');
+
+    // Estado actual de la cámara
+    let cam = {
+      x: 0,
+      y: 2300,
+      w: 1400,
+      h: 900
+    };
+
+    // Objetivo al que viaja la cámara suavemente a 60 FPS
+    let targetCam = {
+      x: 0,
+      y: 2300,
+      w: 1400,
+      h: 900,
+      lerpSpeed: 0.08
+    };
+
+    function updateCamera() {
+      cam.x += (targetCam.x - cam.x) * targetCam.lerpSpeed;
+      cam.y += (targetCam.y - cam.y) * targetCam.lerpSpeed;
+      cam.w += (targetCam.w - cam.w) * targetCam.lerpSpeed;
+      cam.h += (targetCam.h - cam.h) * targetCam.lerpSpeed;
+
+      worldSvg.setAttribute('viewBox', `${cam.x} ${cam.y} ${cam.w} ${cam.h}`);
+    }
+
+    /* ==========================================================================
+       4. MOTOR DE FÍSICA Y CINEMÁTICA INVERSA (IK) A 60 FPS
+       ========================================================================== */
+    const smHead = document.getElementById('smHead');
+    const smTorso = document.getElementById('smTorso');
+    const smLeftArm = document.getElementById('smLeftArm');
+    const smLeftHand = document.getElementById('smLeftHand');
+    const smRightArm = document.getElementById('smRightArm');
+    const smRightHand = document.getElementById('smRightHand');
+    const smLeftLeg = document.getElementById('smLeftLeg');
+    const smRightLeg = document.getElementById('smRightLeg');
+    const smHeldBow = document.getElementById('smHeldBow');
+    const smBowWood = document.getElementById('smBowWood');
+    const smBowString = document.getElementById('smBowString');
+    const smNockedArrow = document.getElementById('smNockedArrow');
+    const smTipFlame = document.getElementById('smTipFlame');
+    const groundBow = document.getElementById('groundBow');
+    const flameOuter = document.getElementById('flameOuter');
+
+    // SOLVER DE 2 HUESOS (INVERSE KINEMATICS)
+    // Garantiza físicamente que las manos y pies NUNCA se separen del cuerpo
+    function solveLimbIK(startX, startY, targetX, targetY, bendDir = 1, len1 = 34, len2 = 34) {
+      const dx = targetX - startX;
+      const dy = targetY - startY;
+      const dist = Math.hypot(dx, dy);
+      const maxReach = (len1 + len2) * 0.999;
+      const d = Math.max(0.1, Math.min(dist, maxReach));
+
+      const baseAng = Math.atan2(dy, dx);
+      const cosA = (len1 * len1 + d * d - len2 * len2) / (2 * len1 * d);
+      const clampedCos = Math.max(-1, Math.min(1, cosA));
+      const angA = Math.acos(clampedCos);
+
+      const jointAng = baseAng + bendDir * angA;
+      const midX = startX + len1 * Math.cos(jointAng);
+      const midY = startY + len1 * Math.sin(jointAng);
+
+      const endX = startX + (dx / dist) * d;
+      const endY = startY + (dy / dist) * d;
+
+      return {
+        start: { x: startX, y: startY },
+        mid: { x: midX, y: midY },
+        end: { x: endX, y: endY }
+      };
+    }
+
+    // Estado físico del personaje
+    let man = {
+      x: 660,
+      y: 2650,
+      baseY: 2650,
+      walkCycle: 0,
+      bowHeld: false,
+      arrowNocked: false,
+      arrowIgnited: false,
+      bowAngle: 0,
+      bowStringPull: 0,
+      state: 'wave',
+      stateTime: 0
+    };
+
+    let flameT = 0;
+
+    function renderStickman() {
+      flameT += 0.15;
+      const f1 = Math.sin(flameT * 2.5) * 6;
+      const f2 = Math.cos(flameT * 3.2) * 5;
+      const fh = Math.sin(flameT * 4.0) * 8;
+      flameOuter.setAttribute('d', `M${f1},-60 C${18 + f2},-38 28,-16 18,2 C10,12 -10,12 -18,2 C-28,-16 ${-18 + f1},-38 ${f1},${-60 - fh} Z`);
+
+      man.stateTime += 0.016;
+
+      let hx = man.x;
+      let hy = man.y;
+      let neckX = hx;
+      let neckY = hy + 28;
+      let hipX = hx;
+      let hipY = hy + 110;
+
+      // Variables objetivo para las manos y pies
+      let targetLX = hx - 28, targetLY = hy + 85;
+      let targetRX = hx + 35, targetRY = hy + 85;
+      let targetFootLX = hx - 25, targetFootLY = 2835;
+      let targetFootRX = hx + 15, targetFootLY2 = 2835;
+
+      // MAQUINA DE ESTADOS FÍSICOS CON VECTORES EXACTOS (RITMO HUMANO TRANQUILO)
+      if (man.state === 'wave') {
+        man.facing = 1;
+        // Saludo suave y cariñoso a ritmo humano
+        const waveAngle = Math.sin(man.stateTime * 3.2) * 14;
+        targetRX = hx + 40 + waveAngle;
+        targetRY = hy - 18 + Math.cos(man.stateTime * 3.2) * 5;
+        targetLX = hx - 26;
+        targetLY = hy + 80;
+
+        targetFootLX = hx - 20;
+        targetFootLY = 2835;
+        targetFootRX = hx + 18;
+        targetFootLY2 = 2835;
+      }
+      else if (man.state === 'walkToBow') {
+        man.facing = 1;
+        man.x += 1.0; // Caminata pausada y tranquila
+        hx = man.x;
+        man.walkCycle += 0.08;
+
+        // Rebote pélvico físico suave
+        const bob = Math.abs(Math.sin(man.walkCycle * 2)) * 3.5;
+        man.y = man.baseY - bob;
+        hy = man.y;
+        neckY = hy + 28;
+        hipY = hy + 110;
+
+        // Vectores de paso orgánico
+        const stride = 22;
+        const p1 = man.walkCycle;
+        const p2 = man.walkCycle + Math.PI;
+
+        targetFootLX = hx + Math.sin(p1) * stride;
+        const liftL = Math.max(0, Math.cos(p1) * 12);
+        targetFootLY = 2835 - liftL;
+
+        targetFootRX = hx + Math.sin(p2) * stride;
+        const liftR = Math.max(0, Math.cos(p2) * 12);
+        targetFootLY2 = 2835 - liftR;
+
+        // Brazos balanceándose suavemente en contra-fase
+        targetLX = hx - Math.sin(p1) * 15;
+        targetLY = hy + 78;
+        targetRX = hx - Math.sin(p2) * 15;
+        targetRY = hy + 78;
+
+        if (man.x >= 715) {
+          man.state = 'bendBow';
+          man.stateTime = 0;
+        }
+      }
+      else if (man.state === 'bendBow') {
+        // Se agacha pausadamente doblando rodillas e inclinando torso
+        const t = Math.min(man.stateTime * 0.75, 1);
+        const ease = t * t * (3 - 2 * t);
+
+        man.y = man.baseY + ease * 45;
+        hy = man.y;
+        neckY = hy + 28;
+        hipY = hy + 105;
+
+        // Mano izquierda alcanza con calma el arco en el suelo
+        targetLX = hx + 15 + ease * 5;
+        targetLY = 2838;
+
+        // Mano derecha equilibra atrás
+        targetRX = hx - 25 - ease * 10;
+        targetRY = hy + 50;
+
+        targetFootLX = hx - 18;
+        targetFootLY = 2835;
+        targetFootRX = hx + 18;
+        targetFootLY2 = 2835;
+
+        if (t >= 1 && man.stateTime > 1.4) {
+          groundBow.style.display = 'none';
+          man.bowHeld = true;
+          smHeldBow.setAttribute('opacity', '1');
+          man.state = 'standBow';
+          man.stateTime = 0;
+        }
+      }
+      else if (man.state === 'standBow') {
+        // Se incorpora con calma con el arco en mano
+        const t = Math.min(man.stateTime * 0.75, 1);
+        const ease = t * t * (3 - 2 * t);
+
+        man.y = (man.baseY + 45) - ease * 45;
+        hy = man.y;
+        neckY = hy + 28;
+        hipY = hy + 110;
+
+        targetLX = hx + 25;
+        targetLY = hy + 65;
+
+        targetRX = hx + 5 - (1 - ease) * 30;
+        targetRY = hy + 65;
+
+        man.bowAngle = 0;
+
+        targetFootLX = hx - 18;
+        targetFootLY = 2835;
+        targetFootRX = hx + 18;
+        targetFootLY2 = 2835;
+
+        if (t >= 1 && man.stateTime > 1.4) {
+          man.arrowNocked = true;
+          smNockedArrow.setAttribute('opacity', '1');
+          man.state = 'walkToFire';
+          man.stateTime = 0;
+        }
+      }
+      else if (man.state === 'walkToFire') {
+        man.facing = -1;
+        man.x -= 1.0; // Caminata tranquila hacia la fogata
+        hx = man.x;
+        man.walkCycle += 0.08;
+
+        const bob = Math.abs(Math.sin(man.walkCycle * 2)) * 3.5;
+        man.y = man.baseY - bob;
+        hy = man.y;
+        neckY = hy + 28;
+        hipY = hy + 110;
+
+        const stride = 22;
+        const p1 = man.walkCycle;
+        const p2 = man.walkCycle + Math.PI;
+
+        targetFootLX = hx + Math.sin(p1) * stride;
+        const liftL = Math.max(0, Math.cos(p1) * 12);
+        targetFootLY = 2835 - liftL;
+
+        targetFootRX = hx + Math.sin(p2) * stride;
+        const liftR = Math.max(0, Math.cos(p2) * 12);
+        targetFootLY2 = 2835 - liftR;
+
+        // Ambas manos llevan el arco y la flecha con serenidad
+        targetLX = hx - 26;
+        targetLY = hy + 65;
+        targetRX = hx - 5;
+        targetRY = hy + 65;
+
+        man.bowAngle = 180;
+
+        if (man.x <= 585) {
+          man.state = 'ignite';
+          man.stateTime = 0;
+        }
+      }
+      else if (man.state === 'ignite') {
+        // Extiende la flecha hacia el fuego con cuidado y paciencia
+        const t = Math.min(man.stateTime * 0.8, 1);
+        const ease = t * t * (3 - 2 * t);
+
+        targetLX = hx - 28 - ease * 12;
+        targetLY = hy + 60 + ease * 25;
+
+        targetRX = hx - 8 - ease * 35;
+        targetRY = hy + 60 + ease * 25;
+
+        man.bowAngle = 195;
+
+        targetFootLX = hx - 18;
+        targetFootLY = 2835;
+        targetFootRX = hx + 18;
+        targetFootLY2 = 2835;
+
+        if (man.stateTime > 1.2 && !man.arrowIgnited) {
+          man.arrowIgnited = true;
+          smTipFlame.setAttribute('opacity', '1');
+          try {
+            sfxSoplar.currentTime = 0;
+            sfxSoplar.play().catch(() => {});
+          } catch(e) {}
+        }
+
+        if (man.stateTime > 2.4) {
+          man.state = 'aimUp';
+          man.stateTime = 0;
+        }
+      }
+      else if (man.state === 'aimUp') {
+        man.facing = 1;
+        // Levanta el arco con grandeza y serenidad hacia las estrellas
+        const t = Math.min(man.stateTime * 0.65, 1);
+        const ease = t * t * (3 - 2 * t);
+
+        targetLX = hx;
+        targetLY = hy - 25 * ease;
+
+        // Tensa la cuerda del arco pausadamente
+        const pull = ease * 26;
+        targetRX = hx;
+        targetRY = hy + 35 + (1 - ease) * 30;
+
+        man.bowAngle = -90;
+        man.bowStringPull = pull;
+
+        targetFootLX = hx - 22;
+        targetFootLY = 2835;
+        targetFootRX = hx + 22;
+        targetFootLY2 = 2835;
+
+        smHead.setAttribute('cy', hy - ease * 6);
+
+        if (t >= 1 && man.stateTime > 2.2) {
+          man.state = 'shoot';
+          man.stateTime = 0;
+          launchArrowAscent();
+        }
+      }
+      else if (man.state === 'shoot') {
+        const recoil = Math.sin(man.stateTime * 15) * Math.exp(-man.stateTime * 8) * 12;
+        targetRX = hx;
+        targetRY = hy + 40 + recoil;
+
+        targetLX = hx;
+        targetLY = hy - 25;
+
+        targetFootLX = hx - 22;
+        targetFootLY = 2835;
+        targetFootRX = hx + 22;
+        targetFootLY2 = 2835;
+
+        man.bowStringPull = 0;
+        smNockedArrow.setAttribute('opacity', '0');
+        smBowString.setAttribute('d', 'M-10,-45 L-10,45');
+      }
+      else if (man.state === 'cheer') {
+        const jump = Math.abs(Math.sin(man.stateTime * 8)) * 25;
+        man.y = man.baseY - jump;
+        hy = man.y;
+        neckY = hy + 28;
+        hipY = hy + 110;
+
+        const cheerArm = Math.sin(man.stateTime * 10) * 15;
+        targetLX = hx - 35 + cheerArm;
+        targetLY = hy - 25;
+        targetRX = hx + 35 - cheerArm;
+        targetRY = hy - 25;
+
+        targetFootLX = hx - 20;
+        targetFootLY = 2835 - jump;
+        targetFootRX = hx + 20;
+        targetFootLY2 = 2835 - jump;
+      }
+
+      // RESOLUCIÓN DE CINEMÁTICA INVERSA (IK) DE BRAZOS
+      const shoulderX = neckX;
+      const shoulderY = neckY + 14;
+      const lArm = solveLimbIK(shoulderX, shoulderY, targetLX, targetLY, -1, 32, 32);
+      const rArm = solveLimbIK(shoulderX, shoulderY, targetRX, targetRY, 1, 32, 32);
+
+      // RESOLUCIÓN DE CINEMÁTICA DE PIERNAS DESDE EL MISMO CENTRO DE PELVIS (CERO SEPARACIÓN)
+      const lLeg = solveLimbIK(hipX, hipY, targetFootLX, targetFootLY, man.facing > 0 ? 1 : -1, 38, 38);
+      const rLeg = solveLimbIK(hipX, hipY, targetFootRX, targetFootLY2, man.facing > 0 ? 1 : -1, 38, 38);
+
+      // DIBUJAR ESQUELETO STICKMAN CON ACOPLAMIENTO EXACTO
+      smHead.setAttribute('cx', hx);
+      smHead.setAttribute('cy', hy);
+      smTorso.setAttribute('x1', neckX);
+      smTorso.setAttribute('y1', neckY);
+      smTorso.setAttribute('x2', hipX);
+      smTorso.setAttribute('y2', hipY);
+
+      // Brazos y manos acopladas sin separación
+      smLeftArm.setAttribute('points', `${shoulderX},${shoulderY} ${lArm.mid.x},${lArm.mid.y} ${lArm.end.x},${lArm.end.y}`);
+      smLeftHand.setAttribute('cx', lArm.end.x);
+      smLeftHand.setAttribute('cy', lArm.end.y);
+
+      smRightArm.setAttribute('points', `${shoulderX},${shoulderY} ${rArm.mid.x},${rArm.mid.y} ${rArm.end.x},${rArm.end.y}`);
+      smRightHand.setAttribute('cx', rArm.end.x);
+      smRightHand.setAttribute('cy', rArm.end.y);
+
+      // Piernas que nacen exactamente en la pelvis (hipX, hipY)
+      const footDir = man.facing;
+      smLeftLeg.setAttribute('points', `${hipX},${hipY} ${lLeg.mid.x},${lLeg.mid.y} ${lLeg.end.x},${lLeg.end.y} ${lLeg.end.x + footDir * 16},${lLeg.end.y}`);
+      smRightLeg.setAttribute('points', `${hipX},${hipY} ${rLeg.mid.x},${rLeg.mid.y} ${rLeg.end.x},${rLeg.end.y} ${rLeg.end.x + footDir * 16},${rLeg.end.y}`);
+
+      // EL ARCO SIEMPRE ANCLADO A LA MANO IZQUIERDA
+      if (man.bowHeld) {
+        smHeldBow.setAttribute('transform', `translate(${lArm.end.x}, ${lArm.end.y}) rotate(${man.bowAngle})`);
+        if (man.arrowNocked && man.state === 'aimUp') {
+          smBowString.setAttribute('d', `M-10,-45 L${-10 - man.bowStringPull},0 L-10,45`);
+          smNockedArrow.setAttribute('transform', `translate(${-man.bowStringPull}, 0)`);
+        }
+      }
+    }
+
+    /* ==========================================================================
+       5. LANZAMIENTO DE LA FLECHA, SEGUIMIENTO DE CÁMARA Y EXPLOSIÓN CÓSMICA
+       ========================================================================== */
+    const flyingArrow = document.getElementById('flyingArrow');
+    const arrowTrail = document.getElementById('arrowTrail');
+    const celebrationCard = document.getElementById('celebrationCard');
+    const skyWritingGroup = document.getElementById('skyWritingGroup');
+
+    let arrow = {
+      active: false,
+      x: 660,
+      y: 2650,
+      vy: -12,
+      accel: -0.45
+    };
+
+    function launchArrowAscent() {
+      arrow.active = true;
+      arrow.x = 660;
+      arrow.y = 2650;
+      arrow.vy = -14;
+
+      flyingArrow.setAttribute('opacity', '1');
+      flyingArrow.setAttribute('transform', `translate(${arrow.x}, ${arrow.y}) rotate(-90)`);
+
+      soundBowRelease();
+      soundRocketAscend();
+
+      // Ajustamos el objetivo de la cámara para que siga la flecha y se ACERQUE (Zoom In)
+      targetCam.lerpSpeed = 0.055;
+    }
+
+    function updateArrowAndCamera() {
+      if (!arrow.active) return;
+
+      arrow.vy += arrow.accel;
+      arrow.y += arrow.vy;
+
+      flyingArrow.setAttribute('transform', `translate(${arrow.x}, ${arrow.y}) rotate(-90)`);
+
+      // Dejar chispas en la estela
+      const spark = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      spark.setAttribute('cx', -50 - Math.random() * 25);
+      spark.setAttribute('cy', Math.random() * 14 - 7);
+      spark.setAttribute('r', Math.random() * 5 + 2);
+      spark.setAttribute('fill', Math.random() > 0.5 ? '#ffe600' : '#ff3c00');
+      spark.setAttribute('opacity', '0.9');
+      arrowTrail.appendChild(spark);
+      setTimeout(() => spark.remove(), 400);
+
+      // CÁMARA ELEVÁNDOSE Y ACERCÁNDOSE (ZOOM IN) A LA FLECHA
+      // A medida que sube desde 2650 hasta 520 (la luna):
+      const progress = Math.max(0, Math.min(1, (2650 - arrow.y) / (2650 - 520)));
+      // El ancho disminuye de 1400 a 650 (zoom in dramático)
+      const zoomW = 1400 - progress * 750;
+      const zoomH = zoomW * (900 / 1400);
+
+      targetCam.w = zoomW;
+      targetCam.h = zoomH;
+      targetCam.x = arrow.x - zoomW / 2;
+      targetCam.y = arrow.y - zoomH * 0.45;
+
+      // DETONACIÓN AL LLEGAR A LA ALTURA DE LA LUNA (y <= 520)
+      if (arrow.y <= 520) {
+        arrow.active = false;
+        detonateAtMoon();
+      }
+    }
+
+    function detonateAtMoon() {
+      flyingArrow.setAttribute('opacity', '0');
+
+      // Stickman celebra con saltos de alegría
+      man.state = 'cheer';
+      man.stateTime = 0;
+
+      // Explosión sonora
+      soundBigExplosion();
+
+      // DISPARAR FUEGOS ARTIFICIALES MASIVOS EN CANVAS
+      const canvasCenterX = window.innerWidth * 0.5;
+      const canvasCenterY = window.innerHeight * 0.35;
+      launchFireworksShow(canvasCenterX, canvasCenterY);
+
+      // RETROCEDER LA CÁMARA (ZOOM OUT) SUAVEMENTE PARA ADMIRAR TODO EL FIRMAMENTO
+      setTimeout(() => {
+        targetCam.lerpSpeed = 0.035;
+        targetCam.x = 0;
+        targetCam.y = 80;
+        targetCam.w = 1400;
+        targetCam.h = 900;
+      }, 400);
+
+      // ESCRIBIR EL NOMBRE EN EL CIELO
+      setTimeout(() => {
+        skyWritingGroup.style.transition = 'opacity 1.5s ease';
+        skyWritingGroup.setAttribute('opacity', '1');
+      }, 1000);
+
+      // MOSTRAR TARJETA ELEGANTE FINAL
+      setTimeout(() => {
+        celebrationCard.classList.add('active');
+      }, 2200);
+    }
+
+    /* ==========================================================================
+       6. MOTOR DE FUEGOS ARTIFICIALES (CANVAS PARTICLES A 60 FPS)
+       ========================================================================== */
+    const fxCanvas = document.getElementById('fxCanvas');
+    const fctx = fxCanvas.getContext('2d');
+
+    function resizeCanvas() {
+      fxCanvas.width = window.innerWidth;
+      fxCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let fxParticles = [];
+    const fxColors = ['#ffd700', '#ff007f', '#00f5d4', '#7b2cbf', '#ff9e00', '#ffffff', '#ff4d6d', '#38b000'];
+
+    class FxParticle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        const ang = Math.random() * Math.PI * 2;
+        const spd = Math.random() * 9 + 2;
+        this.vx = Math.cos(ang) * spd;
+        this.vy = Math.sin(ang) * spd;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.008;
+        this.gravity = 0.09;
+        this.size = Math.random() * 4 + 2;
+      }
+      update() {
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+      draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = Math.max(this.alpha, 0);
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = this.color;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function launchFireworksShow(cx, cy) {
+      createFireworkBurst(cx, cy, 180);
+      for (let i = 1; i <= 6; i++) {
+        setTimeout(() => {
+          const ox = cx + (Math.random() * 400 - 200);
+          const oy = cy + (Math.random() * 200 - 100);
+          createFireworkBurst(ox, oy, 110);
+        }, i * 380);
+      }
+    }
+
+    function createFireworkBurst(x, y, count) {
+      const c1 = fxColors[Math.floor(Math.random() * fxColors.length)];
+      const c2 = fxColors[Math.floor(Math.random() * fxColors.length)];
+      for (let i = 0; i < count; i++) {
+        fxParticles.push(new FxParticle(x, y, Math.random() > 0.5 ? c1 : c2));
+      }
+    }
+
+    function renderFx() {
+      fctx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+      for (let i = fxParticles.length - 1; i >= 0; i--) {
+        const p = fxParticles[i];
+        p.update();
+        p.draw(fctx);
+        if (p.alpha <= 0) fxParticles.splice(i, 1);
+      }
+    }
+
+    /* ==========================================================================
+       7. BUCLE PRINCIPAL DE ANIMACIÓN A 60 FPS
+       ========================================================================== */
+    function mainLoop() {
+      updateCamera();
+      renderStickman();
+      updateArrowAndCamera();
+      renderFx();
+      requestAnimationFrame(mainLoop);
+    }
+    requestAnimationFrame(mainLoop);
+
+    /* ==========================================================================
+       8. LÓGICA DE LA CARTA SVG GRANDE Y BOTONES PERSISTENTES
+       ========================================================================== */
+    const envelopeModal = document.getElementById('envelopeModal');
+    const questionText = document.getElementById('questionText');
+    const btnYes = document.getElementById('btnYes');
+    const btnNo = document.getElementById('btnNo');
+
+    let noTries = 0;
+    const funnyInsists = [
+      "¿Estás completamente segura, Asrti Belen? 🥺",
+      "¡Vamos! ¡Te prometo que te va a fascinar! ¿Segura que no? 🎀",
+      "¿De verdad me vas a dejar con las ganas? ¡Ábrela por favor! ✨",
+      "¡El botón de 'No' ya está harto de que lo toques! 😂🏃‍♂️",
+      "¡No te puedes resistir a tu sorpresa de cumpleaños! 💖"
+    ];
+
+    btnNo.addEventListener('click', () => {
+      noTries++;
+      const msg = funnyInsists[Math.min(noTries - 1, funnyInsists.length - 1)];
+      questionText.textContent = msg;
+      questionText.style.color = '#e11d48';
+
+      // El botón sí crece cada vez más
+      const sc = 1 + noTries * 0.14;
+      btnYes.style.transform = `scale(${sc})`;
+
+      if (noTries >= 3) {
+        // El botón No escapa
+        const rx = Math.random() * 220 - 110;
+        const ry = Math.random() * 90 - 45;
+        btnNo.style.position = 'relative';
+        btnNo.style.left = `${rx}px`;
+        btnNo.style.top = `${ry}px`;
+      }
+    });
+
+    btnNo.addEventListener('mouseenter', () => {
+      if (noTries >= 3) {
+        const rx = Math.random() * 240 - 120;
+        const ry = Math.random() * 100 - 50;
+        btnNo.style.left = `${rx}px`;
+        btnNo.style.top = `${ry}px`;
+      }
+    });
+
+    btnYes.addEventListener('click', () => {
+      getActx();
+      if (!isMuted) {
+        bgMusic.play().catch(() => {});
+      }
+      envelopeModal.classList.add('hidden');
+
+      // Comienza la cinemática fluida del stickman
+      setTimeout(() => {
+        man.state = 'walkToBow';
+        man.stateTime = 0;
+      }, 600);
+    });
+
+    /* ==========================================================================
+       9. REPETIR ANIMACIÓN
+       ========================================================================== */
+    document.getElementById('replayBtn').addEventListener('click', () => {
+      celebrationCard.classList.remove('active');
+      skyWritingGroup.setAttribute('opacity', '0');
+
+      groundBow.style.display = 'block';
+      smHeldBow.setAttribute('opacity', '0');
+      smNockedArrow.setAttribute('opacity', '0');
+      smTipFlame.setAttribute('opacity', '0');
+      flyingArrow.setAttribute('opacity', '0');
+
+      man.x = 660;
+      man.y = 2650;
+      man.bowHeld = false;
+      man.arrowNocked = false;
+      man.arrowIgnited = false;
+      man.state = 'walkToBow';
+      man.stateTime = 0;
+
+      targetCam.lerpSpeed = 0.08;
+      targetCam.x = 0;
+      targetCam.y = 2300;
+      targetCam.w = 1400;
+      targetCam.h = 900;
+    });
+  </script>
+</body>
+</html>

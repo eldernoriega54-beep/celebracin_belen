@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Belén Arcade · El Regalo del Desarrollador 🎮</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ec4899" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background: radial-gradient(circle at 50% 20%, #1a0b2e 0%, #080314 100%);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* BARRA SUPERIOR */
+    header {
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(18, 8, 38, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(236, 72, 153, 0.4);
+      box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo-arcade {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      font-size: 28px;
+      animation: pulseLogo 2s infinite alternate;
+    }
+    @keyframes pulseLogo {
+      from { transform: scale(1); filter: drop-shadow(0 0 5px #ec4899); }
+      to { transform: scale(1.12); filter: drop-shadow(0 0 15px #f59e0b); }
+    }
+    .logo-text h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #f43f5e, #fbbf24, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-text p {
+      font-size: 11px;
+      color: #a78bfa;
+      letter-spacing: 0.5px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-nav {
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.08);
+      transition: all 0.25s;
+    }
+    .btn-nav:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: #ec4899;
+      transform: translateY(-2px);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 25px 20px 80px 20px;
+    }
+
+    .hero-banner {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(236, 72, 153, 0.2);
+      border: 1px solid #ec4899;
+      border-radius: 30px;
+      color: #f472b6;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px;
+      color: #ffd700;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+      margin-bottom: 8px;
+    }
+    .hero-subtitle {
+      font-size: 14px;
+      color: #cbd5e1;
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* GRILLA DE JUEGOS */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 22px;
+    }
+    .game-card {
+      background: rgba(25, 14, 46, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #f43f5e;
+      box-shadow: 0 15px 40px rgba(244, 63, 94, 0.35);
+    }
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #ec4899, #f59e0b, #8b5cf6);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .game-icon {
+      font-size: 38px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+    }
+    .game-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fde047;
+      font-weight: 600;
+    }
+    .game-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .game-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .btn-play {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #f59e0b 100%);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+    }
+    .btn-play:hover {
+      filter: brightness(1.15);
+      transform: scale(1.02);
+    }
+
+    /* MODAL DE BIENVENIDA PWA */
+    #pwaModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 2, 12, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 500;
+      padding: 20px;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    #pwaModal.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .pwa-box {
+      background: linear-gradient(145deg, #22123d, #140826);
+      border: 2px solid #f43f5e;
+      border-radius: 28px;
+      padding: 35px 25px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 50px rgba(244, 63, 94, 0.35);
+      animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .pwa-avatar {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 16px auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #ffd700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    .pwa-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .pwa-box h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 21px;
+      color: #ffd700;
+      margin-bottom: 8px;
+    }
+    .pwa-box p {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .pwa-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn-pwa-download {
+      padding: 14px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #f59e0b 100%);
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s;
+    }
+    .btn-pwa-download:hover {
+      transform: scale(1.03);
+      filter: brightness(1.15);
+    }
+    .btn-pwa-browser {
+      padding: 12px;
+      border-radius: 16px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-pwa-browser:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* MODAL DE JUEGO ACTIVO */
+    #gameModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #080314;
+      z-index: 400;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #gameModal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .game-navbar {
+      padding: 12px 20px;
+      background: #140929;
+      border-bottom: 2px solid rgba(244, 63, 94, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .game-navbar h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      color: #ffd700;
+    }
+    .btn-close-game {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: 1px solid #f43f5e;
+      background: rgba(244, 63, 94, 0.2);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-close-game:hover {
+      background: #f43f5e;
+    }
+    .game-frame {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    /* CONTENEDOR ARCADE */
+    .arcade-container {
+      background: #180b2f;
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 22px;
+      padding: 24px;
+      max-width: 650px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    /* BOTONES D-PAD PARA MOBILE */
+    .dpad-container {
+      display: grid;
+      grid-template-columns: repeat(3, 50px);
+      grid-gap: 6px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    .dpad-btn {
+      width: 50px;
+      height: 50px;
+      background: #241442;
+      border: 1px solid #ec4899;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .dpad-btn:active {
+      background: #ec4899;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-arcade">
+      <div class="logo-icon">🕹️</div>
+      <div class="logo-text">
+        <h1>BELÉN ARCADE</h1>
+        <p>Plataforma de Videojuegos Offline ✨</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="../pastel/index.html" class="btn-nav">🎂 Volver al Pastel</a>
+      <a href="../index.html" class="btn-nav">⬅ Inicio</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-banner">
+      <div class="hero-badge">🎁 Regalo Exclusivo del Desarrollador</div>
+      <h2 class="hero-title">Zona de Juegos para Asrti Belen Paz</h2>
+      <p class="hero-subtitle">
+        10 videojuegos completos diseñados para funcionar al 100% sin internet. Puedes disfrutarlos en tu navegador o instalarlos como aplicación PWA independiente.
+      </p>
+    </div>
+
+    <div class="games-grid">
+      <!-- JUEGO 1: PINTOR DE LABERINTOS (ROLLER SPLAT) -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🎨🧩</div>
+            <div class="game-tag">30 Niveles Progresivos</div>
+          </div>
+          <h3 class="game-title">Pintor de Laberintos</h3>
+          <p class="game-desc">
+            Desliza la pelotita mágica que viaja hasta chocar con las paredes. ¡Pinta el 100% del suelo para superar cada uno de los 30 niveles con selector libre!
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('maze')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 2: LA SERPIENTE -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🐍🍎</div>
+            <div class="game-tag">Retro Arcade</div>
+          </div>
+          <h3 class="game-title">La Serpiente Clásica</h3>
+          <p class="game-desc">
+            Guía a la serpiente para comer pastelitos y crecer sin chocar contra las paredes ni tu propia cola. ¡Soporta teclado y mandos táctiles en pantalla!
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('snake')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 3: SIMÓN DICE (MEMORIA DE COLORES MUSICAL) -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🔴🟡🟢🔵</div>
+            <div class="game-tag">Memoria Progresiva</div>
+          </div>
+          <h3 class="game-title">Simón Dice Musical</h3>
+          <p class="game-desc">
+            El círculo mágico de colores y música. Memoriza la melodía y secuencia que crece un color por cada nivel. ¿Hasta qué nivel podrás llegar?
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('simon')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 4: PIEDRA, PAPEL O TIJERA REALISTA CON IA -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">✊✋✌️</div>
+            <div class="game-tag">Manos Animadas & IA</div>
+          </div>
+          <h3 class="game-title">Piedra, Papel o Tijera</h3>
+          <p class="game-desc">
+            Dos manos animadas enfrentadas batiéndose a duelo (Belén vs Computadora). ¡Con inteligencia artificial adaptativa y cuenta regresiva!
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('rps')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 5: TRES EN RAYA (LOCAL + IA CON 3 DIFICULTADES) -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">❌⭕</div>
+            <div class="game-tag">2P Local o vs IA</div>
+          </div>
+          <h3 class="game-title">Tres en Raya Neón</h3>
+          <p class="game-desc">
+            Juega contra un amigo en el mismo dispositivo o enfrenta a la IA con 3 dificultades seleccionables: Fácil, Media o Modo Imposible (Minimax).
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('tictactoe')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 6: TORRE DE HANOI CON DIFICULTAD PROGRESIVA -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🗼</div>
+            <div class="game-tag">Niveles 1 a 4</div>
+          </div>
+          <h3 class="game-title">Torre de Hanói</h3>
+          <p class="game-desc">
+            Mueve los discos con dificultad progresiva (3, 4, 5 y 6 discos). Puedes reiniciar al Nivel 1 en cualquier momento o activar la solución automática.
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('hanoi')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 7: BUBBLE SORT INTERACTIVO MANUAL -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🫧</div>
+            <div class="game-tag">Tocar & Intercambiar</div>
+          </div>
+          <h3 class="game-title">Bubble Sort Jugable</h3>
+          <p class="game-desc">
+            ¡Ahora tú tienes el control! Toca dos números adyacentes para intercambiarlos manualmente y ordenar la lista en el menor número de movimientos.
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('bubblesort')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 8: FÁBRICA DE PASTELES (CLICKER CON SENTIDO) -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🎂✨</div>
+            <div class="game-tag">Tycoon de Repostería</div>
+          </div>
+          <h3 class="game-title">Pastelería Mágica</h3>
+          <p class="game-desc">
+            Ayuda a Belén a hornear pasteles de fiesta, desbloquear hornos automáticos, chefs ayudantes y organizar la fiesta más épica de cumpleaños.
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('clicker')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 9: JUEGO DE MEMORIA DE CARTAS -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🃏</div>
+            <div class="game-tag">Parejas 3D</div>
+          </div>
+          <h3 class="game-title">Memoria de Cartas</h3>
+          <p class="game-desc">
+            Voltea las cartas para encontrar todos los pares ocultos en el menor tiempo.
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('memory')">▶ JUGAR AHORA</button>
+      </div>
+
+      <!-- JUEGO 10: ADIVINA EL NÚMERO -->
+      <div class="game-card">
+        <div>
+          <div class="card-top">
+            <div class="game-icon">🔢</div>
+            <div class="game-tag">Lógica Numérica</div>
+          </div>
+          <h3 class="game-title">Adivina el Número</h3>
+          <p class="game-desc">
+            Descubre el número oculto entre 1 y 100 con pistas de 'Más alto' o 'Más bajo'.
+          </p>
+        </div>
+        <button class="btn-play" onclick="openGame('guess')">▶ JUGAR AHORA</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL DE ELECCIÓN PWA -->
+  <div id="pwaModal">
+    <div class="pwa-box">
+      <div class="pwa-avatar">
+        <img src="icon.jpeg" alt="Asrti Belen Paz" />
+      </div>
+      <h2>¡Bienvenida, Belén! ✨</h2>
+      <p>
+        Esta es tu <strong>Plataforma de Videojuegos Offline</strong> que el desarrollador preparó con todo su cariño.
+        ¿Cómo te gustaría jugar hoy?
+      </p>
+      <div class="pwa-btns">
+        <button class="btn-pwa-download" id="btnInstallPwa">
+          <span>📲 Descargar ejecutable / Instalar App (PWA)</span>
+        </button>
+        <button class="btn-pwa-browser" id="btnPlayBrowser">
+          <span>🌐 Jugar aquí en el navegador</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE COMPLETO PARA EL JUEGO ACTIVO -->
+  <div id="gameModal">
+    <div class="game-navbar">
+      <h3 id="activeGameTitle">Título del Juego</h3>
+      <button class="btn-close-game" onclick="closeGame()">⬅ Volver a los Juegos</button>
+    </div>
+    <div class="game-frame" id="gameFrame"></div>
+  </div>
+
+  <script>
+    /* ========================================================
+       1. REGISTRO SERVICE WORKER
+       ======================================================== */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    /* ========================================================
+       2. GESTIÓN PWA
+       ======================================================== */
+    const pwaModal = document.getElementById('pwaModal');
+    const btnInstallPwa = document.getElementById('btnInstallPwa');
+    const btnPlayBrowser = document.getElementById('btnPlayBrowser');
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    if (localStorage.getItem('belen_pwa_installed') === 'true') {
+      pwaModal.classList.add('hidden');
+    }
+
+    btnInstallPwa.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          localStorage.setItem('belen_pwa_installed', 'true');
+          pwaModal.classList.add('hidden');
+        }
+      } else {
+        localStorage.setItem('belen_pwa_installed', 'true');
+        alert("¡Aplicación lista! Para tenerla en tu escritorio, puedes añadirla como aplicación desde el menú de tu navegador.");
+        pwaModal.classList.add('hidden');
+      }
+    });
+
+    btnPlayBrowser.addEventListener('click', () => {
+      pwaModal.classList.add('hidden');
+      playArcadeSound('chime');
+    });
+
+    /* ========================================================
+       3. AUDIO SINTETIZADO OFFLINE (WEB AUDIO API)
+       ======================================================== */
+    let actx = null;
+    function getActx() {
+      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      return actx;
+    }
+
+    function playTone(freq, duration = 0.2, type = 'sine') {
+      try {
+        const ctx = getActx();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        g.gain.setValueAtTime(0.25, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playArcadeSound(type) {
+      if (type === 'click') playTone(500, 0.08, 'triangle');
+      else if (type === 'eat') playTone(850, 0.12, 'square');
+      else if (type === 'die') playTone(140, 0.35, 'sawtooth');
+      else if (type === 'chime') playTone(600, 0.25, 'sine');
+      else if (type === 'win') {
+        [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+          setTimeout(() => playTone(f, 0.25, 'sine'), i * 90);
+        });
+      }
+    }
+
+    /* ========================================================
+       4. ENRUTADOR DE MINIJUEGOS
+       ======================================================== */
+    const gameModal = document.getElementById('gameModal');
+    const activeGameTitle = document.getElementById('activeGameTitle');
+    const gameFrame = document.getElementById('gameFrame');
+
+    let activeGameLoop = null;
+
+    function openGame(key) {
+      if (activeGameLoop) {
+        clearInterval(activeGameLoop);
+        activeGameLoop = null;
+      }
+      playArcadeSound('chime');
+      gameModal.classList.add('active');
+
+      if (key === 'maze') renderMazeGame();
+      else if (key === 'snake') renderSnakeGame();
+      else if (key === 'simon') renderSimonGame();
+      else if (key === 'rps') renderRPSGame();
+      else if (key === 'tictactoe') renderTicTacToeGame();
+      else if (key === 'hanoi') renderHanoiGame();
+      else if (key === 'bubblesort') renderBubbleSortGame();
+      else if (key === 'clicker') renderClickerGame();
+      else if (key === 'memory') renderMemoryGame();
+      else if (key === 'guess') renderGuessGame();
+    }
+
+    function closeGame() {
+      if (activeGameLoop) {
+        clearInterval(activeGameLoop);
+        activeGameLoop = null;
+      }
+      playArcadeSound('click');
+      gameModal.classList.remove('active');
+      gameFrame.innerHTML = '';
+    }
+
+    /* ========================================================
+       JUEGO 1: PINTOR DE LABERINTOS (ROLLER SPLAT - 30 NIVELES)
+       ======================================================== */
+    let mazeLevel = 1;
+    let mazeGrid = [];
+    let mazeBall = { x: 1, y: 1 };
+    let mazeRows = 7, mazeCols = 7;
+    let mazeTotalFloor = 0;
+    let mazePaintedCount = 0;
+
+    function renderMazeGame() {
+      activeGameTitle.textContent = `🎨 Pintor de Laberintos · Nivel ${mazeLevel}/30`;
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 520px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-family:'Orbitron'; color:#ffd700; font-size:16px;">Nivel ${mazeLevel} / 30</span>
+            <button onclick="showMazeLevelSelect()" style="padding:6px 14px; border-radius:12px; border:1px solid #38bdf8; background:rgba(56,189,248,0.2); color:#38bdf8; font-weight:bold; cursor:pointer;">Seleccionar Nivel</button>
+          </div>
+
+          <div style="font-size:13px; color:#cbd5e1; margin-bottom:14px;">
+            Progreso: <strong id="mazeProgress" style="color:#ec4899;">0%</strong> pintado
+          </div>
+
+          <div id="mazeCanvasContainer" style="display:flex; justify-content:center; align-items:center; margin-bottom:14px;">
+            <canvas id="mazeCanvas" width="340" height="340" style="background:#110724; border-radius:16px; border:3px solid #ec4899; box-shadow:0 0 25px rgba(236,72,153,0.3);"></canvas>
+          </div>
+
+          <div style="font-size:12px; color:#94a3b8; margin-bottom:10px;">
+            Usa las flechas del teclado, desliza con el dedo o usa los botones:
+          </div>
+
+          <div class="dpad-container">
+            <div></div>
+            <button class="dpad-btn" onclick="moveMazeBall(0, -1)">⬆️</button>
+            <div></div>
+            <button class="dpad-btn" onclick="moveMazeBall(-1, 0)">⬅️</button>
+            <button class="dpad-btn" onclick="resetCurrentMazeLevel()">🔄</button>
+            <button class="dpad-btn" onclick="moveMazeBall(1, 0)">➡️</button>
+            <div></div>
+            <button class="dpad-btn" onclick="moveMazeBall(0, 1)">⬇️</button>
+            <div></div>
+          </div>
+        </div>
+      `;
+
+      initMazeLevel(mazeLevel);
+      setupMazeTouchAndKeys();
+    }
+
+    function initMazeLevel(lvl) {
+      mazeLevel = lvl;
+      activeGameTitle.textContent = `🎨 Pintor de Laberintos · Nivel ${mazeLevel}/30`;
+
+      // Dificultad progresiva de dimensiones
+      if (lvl <= 8) { mazeRows = 6; mazeCols = 6; }
+      else if (lvl <= 20) { mazeRows = 7; mazeCols = 7; }
+      else { mazeRows = 8; mazeCols = 8; }
+
+      // Generar laberinto con semilla determinista basada en el nivel
+      mazeGrid = [];
+      mazeTotalFloor = 0;
+      mazePaintedCount = 0;
+
+      for (let r = 0; r < mazeRows; r++) {
+        mazeGrid[r] = [];
+        for (let c = 0; c < mazeCols; c++) {
+          if (r === 0 || r === mazeRows - 1 || c === 0 || c === mazeCols - 1) {
+            mazeGrid[r][c] = 1; // Pared exterior
+          } else {
+            // Obstáculos pseudoaleatorios según nivel
+            const pseudoRand = Math.sin(lvl * 99 + r * 13 + c * 37);
+            const wallProb = lvl <= 5 ? 0.8 : (lvl <= 18 ? 0.72 : 0.65);
+            if (pseudoRand > wallProb && !(r === 1 && c === 1)) {
+              mazeGrid[r][c] = 1; // Pared interna
+            } else {
+              mazeGrid[r][c] = 0; // Suelo sin pintar
+              mazeTotalFloor++;
+            }
+          }
+        }
+      }
+
+      mazeBall = { x: 1, y: 1 };
+      mazeGrid[1][1] = 2; // Pintado
+      mazePaintedCount = 1;
+
+      drawMaze();
+    }
+
+    function drawMaze() {
+      const canvas = document.getElementById('mazeCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const cellW = canvas.width / mazeCols;
+      const cellH = canvas.height / mazeRows;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let r = 0; r < mazeRows; r++) {
+        for (let c = 0; c < mazeCols; c++) {
+          const x = c * cellW;
+          const y = r * cellH;
+
+          if (mazeGrid[r][c] === 1) {
+            // Pared
+            ctx.fillStyle = '#261344';
+            ctx.fillRect(x, y, cellW, cellH);
+            ctx.strokeStyle = '#432373';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(x, y, cellW, cellH);
+          } else if (mazeGrid[r][c] === 2) {
+            // Pintado con color brillante
+            ctx.fillStyle = '#ec4899';
+            ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2);
+          } else {
+            // Suelo sin pintar
+            ctx.fillStyle = '#170b2e';
+            ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2);
+          }
+        }
+      }
+
+      // Dibujar pelotita
+      const bx = mazeBall.x * cellW + cellW / 2;
+      const by = mazeBall.y * cellH + cellH / 2;
+      const radius = Math.min(cellW, cellH) * 0.38;
+
+      ctx.save();
+      ctx.shadowColor = '#ffd700';
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = '#ffd700';
+      ctx.beginPath();
+      ctx.arc(bx, by, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Porcentaje
+      const pct = Math.floor((mazePaintedCount / mazeTotalFloor) * 100);
+      const prg = document.getElementById('mazeProgress');
+      if (prg) prg.textContent = `${pct}%`;
+    }
+
+    function moveMazeBall(dx, dy) {
+      let moved = false;
+      while (true) {
+        const nextX = mazeBall.x + dx;
+        const nextY = mazeBall.y + dy;
+        if (mazeGrid[nextY][nextX] === 1) break; // Chocó con pared
+
+        mazeBall.x = nextX;
+        mazeBall.y = nextY;
+        moved = true;
+
+        if (mazeGrid[nextY][nextX] === 0) {
+          mazeGrid[nextY][nextX] = 2; // Pintar
+          mazePaintedCount++;
+        }
+      }
+
+      if (moved) {
+        playArcadeSound('click');
+        drawMaze();
+
+        if (mazePaintedCount >= mazeTotalFloor) {
+          playArcadeSound('win');
+          setTimeout(() => {
+            if (mazeLevel < 30) {
+              alert(`🎉 ¡Nivel ${mazeLevel} completado, Belén! Pasando al nivel ${mazeLevel + 1}...`);
+              initMazeLevel(mazeLevel + 1);
+            } else {
+              alert("👑 ¡INCREÍBLE BELÉN! ¡Completaste todos los 30 niveles del Pintor de Laberintos!");
+            }
+          }, 200);
+        }
+      }
+    }
+
+    function resetCurrentMazeLevel() {
+      playArcadeSound('click');
+      initMazeLevel(mazeLevel);
+    }
+
+    function showMazeLevelSelect() {
+      let btns = '';
+      for (let i = 1; i <= 30; i++) {
+        btns += `<button onclick="initMazeLevel(${i}); this.parentElement.parentElement.remove();" style="padding:10px; border-radius:10px; background:${i === mazeLevel ? '#ec4899' : '#241442'}; color:#fff; border:1px solid #38bdf8; font-family:'Orbitron'; font-weight:bold; cursor:pointer;">${i}</button>`;
+      }
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:900; padding:20px;';
+      overlay.innerHTML = `
+        <div style="background:#180b2f; border:2px solid #38bdf8; border-radius:20px; padding:25px; max-width:440px; width:100%; text-align:center;">
+          <h3 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:15px;">Selecciona un Nivel (1-30)</h3>
+          <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin-bottom:20px; max-height:280px; overflow-y:auto;">
+            ${btns}
+          </div>
+          <button onclick="this.parentElement.parentElement.remove()" style="padding:8px 20px; border-radius:12px; background:#f43f5e; color:#fff; border:none; font-weight:bold; cursor:pointer;">Cerrar</button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+
+    function setupMazeTouchAndKeys() {
+      // Teclado
+      window.onkeydown = (e) => {
+        if (!gameModal.classList.contains('active')) return;
+        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') moveMazeBall(0, -1);
+        else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') moveMazeBall(0, 1);
+        else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') moveMazeBall(-1, 0);
+        else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') moveMazeBall(1, 0);
+      };
+
+      // Swipe táctil
+      const canvas = document.getElementById('mazeCanvas');
+      if (!canvas) return;
+      let startX = 0, startY = 0;
+      canvas.ontouchstart = (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      };
+      canvas.ontouchend = (e) => {
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) > Math.abs(dy)) {
+          if (dx > 25) moveMazeBall(1, 0);
+          else if (dx < -25) moveMazeBall(-1, 0);
+        } else {
+          if (dy > 25) moveMazeBall(0, 1);
+          else if (dy < -25) moveMazeBall(0, -1);
+        }
+      };
+    }
+
+    /* ========================================================
+       JUEGO 2: LA SERPIENTE CLÁSICA (SNAKE RETRO)
+       ======================================================== */
+    let snake = [{x: 8, y: 8}];
+    let snakeFood = {x: 4, y: 4};
+    let snakeDir = {x: 1, y: 0};
+    let snakeScore = 0;
+    let snakeBest = 0;
+
+    function renderSnakeGame() {
+      activeGameTitle.textContent = '🐍 La Serpiente Retro Arcade';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 440px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-family:'Orbitron';">
+            <span style="color:#ffd700;">Score: <strong id="snakeScore">0</strong></span>
+            <span style="color:#a855f7;">Récord: <strong id="snakeBest">${snakeBest}</strong></span>
+          </div>
+
+          <canvas id="snakeCanvas" width="320" height="320" style="background:#0b0417; border:3px solid #22c55e; border-radius:16px; display:block; margin:0 auto 15px auto;"></canvas>
+
+          <div class="dpad-container">
+            <div></div>
+            <button class="dpad-btn" onclick="setSnakeDir(0, -1)">⬆️</button>
+            <div></div>
+            <button class="dpad-btn" onclick="setSnakeDir(-1, 0)">⬅️</button>
+            <button class="dpad-btn" onclick="initSnakeGame()">🔄</button>
+            <button class="dpad-btn" onclick="setSnakeDir(1, 0)">➡️</button>
+            <div></div>
+            <button class="dpad-btn" onclick="setSnakeDir(0, 1)">⬇️</button>
+            <div></div>
+          </div>
+        </div>
+      `;
+
+      initSnakeGame();
+    }
+
+    function initSnakeGame() {
+      snake = [{x: 8, y: 8}, {x: 7, y: 8}, {x: 6, y: 8}];
+      snakeDir = {x: 1, y: 0};
+      snakeScore = 0;
+      spawnSnakeFood();
+      document.getElementById('snakeScore').textContent = '0';
+
+      if (activeGameLoop) clearInterval(activeGameLoop);
+      activeGameLoop = setInterval(updateSnake, 130);
+
+      window.onkeydown = (e) => {
+        if (!gameModal.classList.contains('active')) return;
+        if (e.key === 'ArrowUp' && snakeDir.y === 0) setSnakeDir(0, -1);
+        else if (e.key === 'ArrowDown' && snakeDir.y === 0) setSnakeDir(0, 1);
+        else if (e.key === 'ArrowLeft' && snakeDir.x === 0) setSnakeDir(-1, 0);
+        else if (e.key === 'ArrowRight' && snakeDir.x === 0) setSnakeDir(1, 0);
+      };
+    }
+
+    function setSnakeDir(dx, dy) {
+      if (dx !== -snakeDir.x || dy !== -snakeDir.y) {
+        snakeDir = {x: dx, y: dy};
+      }
+    }
+
+    function spawnSnakeFood() {
+      snakeFood = {
+        x: Math.floor(Math.random() * 16),
+        y: Math.floor(Math.random() * 16)
+      };
+    }
+
+    function updateSnake() {
+      const head = {x: snake[0].x + snakeDir.x, y: snake[0].y + snakeDir.y};
+
+      // Colisión con paredes
+      if (head.x < 0 || head.x >= 16 || head.y < 0 || head.y >= 16) {
+        playArcadeSound('die');
+        clearInterval(activeGameLoop);
+        alert(`¡Game Over! Puntuación final: ${snakeScore}`);
+        initSnakeGame();
+        return;
+      }
+
+      // Colisión con sí misma
+      for (let s of snake) {
+        if (s.x === head.x && s.y === head.y) {
+          playArcadeSound('die');
+          clearInterval(activeGameLoop);
+          alert(`¡Game Over! Chocaste contigo misma. Puntos: ${snakeScore}`);
+          initSnakeGame();
+          return;
+        }
+      }
+
+      snake.unshift(head);
+
+      // Comió alimento
+      if (head.x === snakeFood.x && head.y === snakeFood.y) {
+        snakeScore += 10;
+        playArcadeSound('eat');
+        document.getElementById('snakeScore').textContent = snakeScore;
+        if (snakeScore > snakeBest) {
+          snakeBest = snakeScore;
+          document.getElementById('snakeBest').textContent = snakeBest;
+        }
+        spawnSnakeFood();
+      } else {
+        snake.pop();
+      }
+
+      drawSnake();
+    }
+
+    function drawSnake() {
+      const canvas = document.getElementById('snakeCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const sz = canvas.width / 16;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Dibujar comida (pastelito / manzana)
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath();
+      ctx.arc(snakeFood.x * sz + sz/2, snakeFood.y * sz + sz/2, sz/2 - 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Dibujar serpiente
+      snake.forEach((part, idx) => {
+        ctx.fillStyle = idx === 0 ? '#4ade80' : '#22c55e';
+        ctx.fillRect(part.x * sz + 1, part.y * sz + 1, sz - 2, sz - 2);
+      });
+    }
+
+    /* ========================================================
+       JUEGO 3: SIMÓN DICE MUSICAL (MEMORIA EN CÍRCULO)
+       ======================================================== */
+    let simonSeq = [];
+    let simonStep = 0;
+    let simonRound = 1;
+    let simonAcceptInput = false;
+    const simonFreqs = [415, 310, 252, 209]; // Tonos clásicos
+
+    function renderSimonGame() {
+      activeGameTitle.textContent = '🔴🟡🟢🔵 Simón Dice Musical';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 440px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:4px;">SIMÓN DICE</h2>
+          <div style="font-size:15px; color:#38bdf8; margin-bottom:15px;">
+            Nivel: <strong id="simonRound" style="color:#ec4899;">1</strong>
+          </div>
+
+          <div id="simonCircle" style="width:260px; height:260px; border-radius:50%; margin:0 auto 20px auto; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; padding:10px; background:#110624; border:5px solid #2d1454; position:relative;">
+            <div id="simon0" onclick="playerPressSimon(0)" style="background:#22c55e; border-top-left-radius:100%; opacity:0.6; cursor:pointer;"></div>
+            <div id="simon1" onclick="playerPressSimon(1)" style="background:#ef4444; border-top-right-radius:100%; opacity:0.6; cursor:pointer;"></div>
+            <div id="simon2" onclick="playerPressSimon(2)" style="background:#eab308; border-bottom-left-radius:100%; opacity:0.6; cursor:pointer;"></div>
+            <div id="simon3" onclick="playerPressSimon(3)" style="background:#3b82f6; border-bottom-right-radius:100%; opacity:0.6; cursor:pointer;"></div>
+          </div>
+
+          <div id="simonStatus" style="font-size:14px; color:#cbd5e1; min-height:24px; margin-bottom:15px;">Presiona Iniciar para escuchar la melodía</div>
+
+          <button onclick="startSimonGame()" style="padding:12px 28px; border-radius:16px; border:none; background:linear-gradient(135deg, #ec4899, #f59e0b); color:#fff; font-family:'Orbitron'; font-weight:bold; cursor:pointer;">¡INICIAR RONDA!</button>
+        </div>
+      `;
+    }
+
+    function startSimonGame() {
+      simonSeq = [];
+      simonRound = 1;
+      document.getElementById('simonRound').textContent = simonRound;
+      nextSimonRound();
+    }
+
+    async function nextSimonRound() {
+      simonAcceptInput = false;
+      simonStep = 0;
+      document.getElementById('simonRound').textContent = simonRound;
+      document.getElementById('simonStatus').textContent = `Escucha atentamente el Nivel ${simonRound}...`;
+      simonSeq.push(Math.floor(Math.random() * 4));
+
+      await new Promise(r => setTimeout(r, 600));
+
+      for (let s of simonSeq) {
+        flashSimonPad(s);
+        playTone(simonFreqs[s], 0.35);
+        await new Promise(r => setTimeout(r, 550));
+      }
+
+      simonAcceptInput = true;
+      document.getElementById('simonStatus').textContent = '¡Tu turno! Repite la secuencia.';
+    }
+
+    function flashSimonPad(idx) {
+      const pad = document.getElementById(`simon${idx}`);
+      if (!pad) return;
+      pad.style.opacity = '1';
+      pad.style.filter = 'brightness(1.5) drop-shadow(0 0 12px #fff)';
+      setTimeout(() => {
+        pad.style.opacity = '0.6';
+        pad.style.filter = 'none';
+      }, 350);
+    }
+
+    function playerPressSimon(idx) {
+      if (!simonAcceptInput) return;
+
+      flashSimonPad(idx);
+      playTone(simonFreqs[idx], 0.25);
+
+      if (idx === simonSeq[simonStep]) {
+        simonStep++;
+        if (simonStep === simonSeq.length) {
+          simonAcceptInput = false;
+          playArcadeSound('win');
+          document.getElementById('simonStatus').textContent = '🎉 ¡Excelente memoria! Preparando siguiente color...';
+          simonRound++;
+          setTimeout(nextSimonRound, 1000);
+        }
+      } else {
+        simonAcceptInput = false;
+        playArcadeSound('die');
+        document.getElementById('simonStatus').textContent = `❌ ¡Te equivocaste! Llegaste hasta el Nivel ${simonRound}.`;
+      }
+    }
+
+    /* ========================================================
+       JUEGO 4: PIEDRA, PAPEL O TIJERA (2 MANOS ENFRENTADAS CON IA)
+       ======================================================== */
+    let rpsPlayerScore = 0;
+    let rpsComputerScore = 0;
+    let playerHistory = [];
+
+    function renderRPSGame() {
+      activeGameTitle.textContent = '✊✋✌️ Piedra, Papel o Tijera con IA';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 520px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:4px;">DUELO DE MANOS</h2>
+          <div style="font-size:16px; color:#38bdf8; margin-bottom:20px; font-family:'Orbitron';">
+            Belén: <strong id="rpsScoreP" style="color:#ec4899;">${rpsPlayerScore}</strong> vs IA: <strong id="rpsScoreC" style="color:#f59e0b;">${rpsComputerScore}</strong>
+          </div>
+
+          <div style="display:flex; justify-content:space-around; align-items:center; height:140px; margin-bottom:20px; background:#120726; border-radius:18px; border:2px solid rgba(255,255,255,0.15); padding:10px;">
+            <div style="text-align:center;">
+              <div id="handPlayer" style="font-size:70px; transform:scaleX(1); transition:transform 0.2s;">✊</div>
+              <span style="font-size:12px; color:#ec4899; font-weight:bold;">Mano Belén</span>
+            </div>
+            <div style="font-family:'Orbitron'; font-size:20px; color:#ffd700;">VS</div>
+            <div style="text-align:center;">
+              <div id="handCpu" style="font-size:70px; transform:scaleX(-1); transition:transform 0.2s;">✊</div>
+              <span style="font-size:12px; color:#f59e0b; font-weight:bold;">Mano IA</span>
+            </div>
+          </div>
+
+          <div id="rpsOutcome" style="font-size:16px; font-weight:bold; min-height:36px; color:#4ade80; margin-bottom:20px;">
+            Elige qué lanzar:
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:14px;">
+            <button onclick="startRPSRound('rock')" style="padding:14px 22px; font-size:28px; border-radius:16px; border:2px solid #ec4899; background:#241442; cursor:pointer;">✊</button>
+            <button onclick="startRPSRound('paper')" style="padding:14px 22px; font-size:28px; border-radius:16px; border:2px solid #38bdf8; background:#241442; cursor:pointer;">✋</button>
+            <button onclick="startRPSRound('scissors')" style="padding:14px 22px; font-size:28px; border-radius:16px; border:2px solid #fbbf24; background:#241442; cursor:pointer;">✌️</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function predictPlayerMove() {
+      // IA predictiva basada en los últimos movimientos del jugador
+      if (playerHistory.length < 2) {
+        return ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)];
+      }
+      const last = playerHistory[playerHistory.length - 1];
+      // Si el jugador suele repetir o alternar:
+      const counterMoves = { rock: 'paper', paper: 'scissors', scissors: 'rock' };
+      return Math.random() > 0.35 ? counterMoves[last] : ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)];
+    }
+
+    async function startRPSRound(userPick) {
+      playerHistory.push(userPick);
+      const hP = document.getElementById('handPlayer');
+      const hC = document.getElementById('handCpu');
+      const out = document.getElementById('rpsOutcome');
+
+      out.textContent = '¡1... 2... 3...!';
+      out.style.color = '#ffd700';
+
+      // Animación de rebote de los puños
+      for (let i = 0; i < 3; i++) {
+        hP.textContent = '✊';
+        hC.textContent = '✊';
+        hP.style.transform = 'scaleX(1) translateY(-18px)';
+        hC.style.transform = 'scaleX(-1) translateY(-18px)';
+        playTone(350, 0.08);
+        await new Promise(r => setTimeout(r, 220));
+        hP.style.transform = 'scaleX(1) translateY(0)';
+        hC.style.transform = 'scaleX(-1) translateY(0)';
+        await new Promise(r => setTimeout(r, 220));
+      }
+
+      const cpuPick = predictPlayerMove();
+      const emojis = { rock: '✊', paper: '✋', scissors: '✌️' };
+      hP.textContent = emojis[userPick];
+      hC.textContent = emojis[cpuPick];
+
+      if (userPick === cpuPick) {
+        out.textContent = `🤝 ¡Empate! Ambos sacaron ${emojis[userPick]}.`;
+        out.style.color = '#cbd5e1';
+      } else if (
+        (userPick === 'rock' && cpuPick === 'scissors') ||
+        (userPick === 'paper' && cpuPick === 'rock') ||
+        (userPick === 'scissors' && cpuPick === 'paper')
+      ) {
+        rpsPlayerScore++;
+        out.textContent = `🎉 ¡Ganaste, Belén! ${emojis[userPick]} vence a ${emojis[cpuPick]}.`;
+        out.style.color = '#4ade80';
+        playArcadeSound('win');
+      } else {
+        rpsComputerScore++;
+        out.textContent = `🤖 La IA predijo tu jugada y eligió ${emojis[cpuPick]}!`;
+        out.style.color = '#f43f5e';
+        playTone(200, 0.3);
+      }
+
+      document.getElementById('rpsScoreP').textContent = rpsPlayerScore;
+      document.getElementById('rpsScoreC').textContent = rpsComputerScore;
+    }
+
+    /* ========================================================
+       JUEGO 5: TRES EN RAYA (LOCAL + IA CON 3 DIFICULTADES)
+       ======================================================== */
+    let tttMode = 'ai'; // 'local' o 'ai'
+    let tttDifficulty = 'medium'; // 'easy', 'medium', 'impossible'
+    let tttBoardState = Array(9).fill(null);
+    let tttTurn = 'X';
+    let tttIsActive = true;
+
+    function renderTicTacToeGame() {
+      activeGameTitle.textContent = '❌⭕ Tres en Raya Neón';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 440px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:10px;">TRES EN RAYA</h2>
+
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:12px;">
+            <button id="btnTttModeAi" onclick="setTttMode('ai')" style="padding:6px 14px; border-radius:12px; border:1px solid #ec4899; background:#ec4899; color:#fff; font-weight:bold; cursor:pointer;">vs Computadora</button>
+            <button id="btnTttModeLocal" onclick="setTttMode('local')" style="padding:6px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.2); background:transparent; color:#fff; font-weight:bold; cursor:pointer;">2 Jugadores Local</button>
+          </div>
+
+          <div id="tttDiffBox" style="display:flex; justify-content:center; gap:6px; margin-bottom:15px;">
+            <span style="font-size:12px; color:#cbd5e1; align-self:center;">Dificultad IA:</span>
+            <button onclick="setTttDiff('easy')" id="diffEasy" style="padding:4px 10px; border-radius:8px; border:none; background:#22c55e; color:#000; font-size:11px; font-weight:bold; cursor:pointer;">Fácil</button>
+            <button onclick="setTttDiff('medium')" id="diffMedium" style="padding:4px 10px; border-radius:8px; border:none; background:#f59e0b; color:#000; font-size:11px; font-weight:bold; cursor:pointer; opacity:1;">Media</button>
+            <button onclick="setTttDiff('impossible')" id="diffImp" style="padding:4px 10px; border-radius:8px; border:none; background:#ef4444; color:#fff; font-size:11px; font-weight:bold; cursor:pointer; opacity:0.6;">Imposible</button>
+          </div>
+
+          <div id="tttStatusText" style="color:#f472b6; font-weight:bold; margin-bottom:14px;">Turno de: X</div>
+
+          <div id="tttGrid" style="display:grid; grid-template-columns:repeat(3, 90px); grid-gap:10px; justify-content:center; margin-bottom:18px;">
+          </div>
+
+          <button onclick="initTttBoard()" style="padding:9px 20px; border-radius:12px; border:none; background:#8b5cf6; color:#fff; font-weight:bold; cursor:pointer;">Reiniciar Tablero</button>
+        </div>
+      `;
+      initTttBoard();
+    }
+
+    function setTttMode(mode) {
+      tttMode = mode;
+      document.getElementById('btnTttModeAi').style.background = mode === 'ai' ? '#ec4899' : 'transparent';
+      document.getElementById('btnTttModeLocal').style.background = mode === 'local' ? '#ec4899' : 'transparent';
+      document.getElementById('tttDiffBox').style.display = mode === 'ai' ? 'flex' : 'none';
+      initTttBoard();
+    }
+
+    function setTttDiff(diff) {
+      tttDifficulty = diff;
+      document.getElementById('diffEasy').style.opacity = diff === 'easy' ? '1' : '0.5';
+      document.getElementById('diffMedium').style.opacity = diff === 'medium' ? '1' : '0.5';
+      document.getElementById('diffImp').style.opacity = diff === 'impossible' ? '1' : '0.5';
+      initTttBoard();
+    }
+
+    function initTttBoard() {
+      tttBoardState = Array(9).fill(null);
+      tttTurn = 'X';
+      tttIsActive = true;
+      const grid = document.getElementById('tttGrid');
+      grid.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.style.width = '90px';
+        cell.style.height = '90px';
+        cell.style.background = '#221140';
+        cell.style.borderRadius = '14px';
+        cell.style.display = 'flex';
+        cell.style.justifyContent = 'center';
+        cell.style.alignItems = 'center';
+        cell.style.fontSize = '34px';
+        cell.style.fontFamily = "'Orbitron', sans-serif";
+        cell.style.fontWeight = 'bold';
+        cell.style.cursor = 'pointer';
+        cell.style.border = '2px solid rgba(255,255,255,0.15)';
+        cell.onclick = () => onTttCellClick(i, cell);
+        grid.appendChild(cell);
+      }
+      document.getElementById('tttStatusText').textContent = 'Turno de: X';
+    }
+
+    async function onTttCellClick(idx, cell) {
+      if (!tttIsActive || tttBoardState[idx]) return;
+      playArcadeSound('click');
+      tttBoardState[idx] = tttTurn;
+      cell.textContent = tttTurn;
+      cell.style.color = tttTurn === 'X' ? '#ec4899' : '#38bdf8';
+
+      if (checkTttWin(tttTurn)) {
+        document.getElementById('tttStatusText').textContent = `🎉 ¡Ganador: ${tttTurn}!`;
+        playArcadeSound('win');
+        tttIsActive = false;
+        return;
+      }
+      if (!tttBoardState.includes(null)) {
+        document.getElementById('tttStatusText').textContent = '🤝 ¡Empate!';
+        tttIsActive = false;
+        return;
+      }
+
+      if (tttMode === 'local') {
+        tttTurn = tttTurn === 'X' ? 'O' : 'X';
+        document.getElementById('tttStatusText').textContent = `Turno de: ${tttTurn}`;
+      } else {
+        // Turno IA
+        tttTurn = 'O';
+        document.getElementById('tttStatusText').textContent = 'Pensando jugada IA...';
+        tttIsActive = false;
+        await new Promise(r => setTimeout(r, 400));
+        makeTttAiMove();
+      }
+    }
+
+    function makeTttAiMove() {
+      let move;
+      if (tttDifficulty === 'easy') {
+        const available = tttBoardState.map((v, i) => v === null ? i : null).filter(v => v !== null);
+        move = available[Math.floor(Math.random() * available.length)];
+      } else if (tttDifficulty === 'medium') {
+        // Intenta ganar o bloquear al jugador
+        move = findWinningMove('O') || findWinningMove('X');
+        if (move === undefined) {
+          const available = tttBoardState.map((v, i) => v === null ? i : null).filter(v => v !== null);
+          move = available[Math.floor(Math.random() * available.length)];
+        }
+      } else {
+        // Algoritmo Minimax (Imposible)
+        move = getBestMinimaxMove();
+      }
+
+      if (move !== undefined) {
+        tttBoardState[move] = 'O';
+        const cell = document.getElementById('tttGrid').children[move];
+        cell.textContent = 'O';
+        cell.style.color = '#38bdf8';
+        playArcadeSound('click');
+
+        if (checkTttWin('O')) {
+          document.getElementById('tttStatusText').textContent = '🤖 ¡La IA ha ganado!';
+          playTone(200, 0.35);
+          return;
+        }
+        if (!tttBoardState.includes(null)) {
+          document.getElementById('tttStatusText').textContent = '🤝 ¡Empate!';
+          return;
+        }
+      }
+      tttTurn = 'X';
+      tttIsActive = true;
+      document.getElementById('tttStatusText').textContent = 'Turno de: Belén (X)';
+    }
+
+    function findWinningMove(player) {
+      const wins = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+      ];
+      for (let w of wins) {
+        const line = [tttBoardState[w[0]], tttBoardState[w[1]], tttBoardState[w[2]]];
+        if (line.filter(x => x === player).length === 2 && line.includes(null)) {
+          return w[line.indexOf(null)];
+        }
+      }
+      return undefined;
+    }
+
+    function getBestMinimaxMove() {
+      let bestScore = -Infinity;
+      let move;
+      for (let i = 0; i < 9; i++) {
+        if (tttBoardState[i] === null) {
+          tttBoardState[i] = 'O';
+          let score = minimax(tttBoardState, 0, false);
+          tttBoardState[i] = null;
+          if (score > bestScore) {
+            bestScore = score;
+            move = i;
+          }
+        }
+      }
+      return move;
+    }
+
+    function minimax(board, depth, isMaximizing) {
+      if (checkTttWin('O')) return 10 - depth;
+      if (checkTttWin('X')) return depth - 10;
+      if (!board.includes(null)) return 0;
+
+      if (isMaximizing) {
+        let best = -Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === null) {
+            board[i] = 'O';
+            best = Math.max(best, minimax(board, depth + 1, false));
+            board[i] = null;
+          }
+        }
+        return best;
+      } else {
+        let best = Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === null) {
+            board[i] = 'X';
+            best = Math.min(best, minimax(board, depth + 1, true));
+            board[i] = null;
+          }
+        }
+        return best;
+      }
+    }
+
+    function checkTttWin(p) {
+      const wins = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+      ];
+      return wins.some(w => tttBoardState[w[0]] === p && tttBoardState[w[1]] === p && tttBoardState[w[2]] === p);
+    }
+
+    /* ========================================================
+       JUEGO 6: TORRE DE HANOI CON DIFICULTAD PROGRESIVA
+       ======================================================== */
+    let hanoiDisksCount = 3;
+    let hanoiPoles = [[], [], []];
+    let hanoiSelectedPole = null;
+    let hanoiMoves = 0;
+
+    function renderHanoiGame() {
+      activeGameTitle.textContent = `🗼 Torre de Hanói (Nivel ${hanoiDisksCount - 2} / 4)`;
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 600px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:6px;">TORRE DE HANÓI</h2>
+          
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:12px;">
+            <button onclick="setHanoiLevel(3)" style="padding:5px 12px; border-radius:10px; border:none; background:${hanoiDisksCount === 3 ? '#ec4899' : '#331b54'}; color:#fff; font-weight:bold; cursor:pointer;">Nivel 1 (3 discos)</button>
+            <button onclick="setHanoiLevel(4)" style="padding:5px 12px; border-radius:10px; border:none; background:${hanoiDisksCount === 4 ? '#ec4899' : '#331b54'}; color:#fff; font-weight:bold; cursor:pointer;">Nivel 2 (4 discos)</button>
+            <button onclick="setHanoiLevel(5)" style="padding:5px 12px; border-radius:10px; border:none; background:${hanoiDisksCount === 5 ? '#ec4899' : '#331b54'}; color:#fff; font-weight:bold; cursor:pointer;">Nivel 3 (5 discos)</button>
+            <button onclick="setHanoiLevel(6)" style="padding:5px 12px; border-radius:10px; border:none; background:${hanoiDisksCount === 6 ? '#ec4899' : '#331b54'}; color:#fff; font-weight:bold; cursor:pointer;">Nivel 4 (6 discos)</button>
+          </div>
+
+          <div style="font-size:14px; color:#38bdf8; margin-bottom:10px;">Movimientos: <strong id="hanoiMoveCount">0</strong> (Óptimo: ${Math.pow(2, hanoiDisksCount) - 1})</div>
+
+          <div style="display:flex; justify-content:space-around; align-items:flex-end; height:220px; border-bottom:8px solid #475569; position:relative; margin-bottom:15px;">
+            <div id="hPole0" onclick="onHanoiPoleClick(0)" style="width:30%; height:100%; display:flex; flex-direction:column-reverse; align-items:center; cursor:pointer; position:relative;">
+              <div style="position:absolute; width:8px; height:180px; background:#64748b; border-radius:4px;"></div>
+            </div>
+            <div id="hPole1" onclick="onHanoiPoleClick(1)" style="width:30%; height:100%; display:flex; flex-direction:column-reverse; align-items:center; cursor:pointer; position:relative;">
+              <div style="position:absolute; width:8px; height:180px; background:#64748b; border-radius:4px;"></div>
+            </div>
+            <div id="hPole2" onclick="onHanoiPoleClick(2)" style="width:30%; height:100%; display:flex; flex-direction:column-reverse; align-items:center; cursor:pointer; position:relative;">
+              <div style="position:absolute; width:8px; height:180px; background:#64748b; border-radius:4px;"></div>
+            </div>
+          </div>
+
+          <div id="hanoiMsg" style="font-size:13px; color:#4ade80; min-height:22px; margin-bottom:15px;">Toca una torre para seleccionar su disco</div>
+
+          <div style="display:flex; justify-content:center; gap:10px;">
+            <button onclick="setHanoiLevel(3)" style="padding:9px 18px; border-radius:12px; border:none; background:#ec4899; color:#fff; font-weight:bold; cursor:pointer;">Reiniciar al Nivel 1</button>
+            <button onclick="solveHanoiAuto()" style="padding:9px 18px; border-radius:12px; border:none; background:#8b5cf6; color:#fff; font-weight:bold; cursor:pointer;">Auto-Resolver ✨</button>
+          </div>
+        </div>
+      `;
+      initHanoiPoles();
+    }
+
+    function setHanoiLevel(n) {
+      hanoiDisksCount = n;
+      renderHanoiGame();
+    }
+
+    function initHanoiPoles() {
+      hanoiPoles = [[], [], []];
+      for (let i = hanoiDisksCount; i >= 1; i--) {
+        hanoiPoles[0].push(i);
+      }
+      hanoiSelectedPole = null;
+      hanoiMoves = 0;
+      updateHanoiDisplay();
+    }
+
+    function updateHanoiDisplay() {
+      document.getElementById('hanoiMoveCount').textContent = hanoiMoves;
+      const colors = ['#f43f5e', '#fbbf24', '#38bdf8', '#4ade80', '#a855f7', '#ec4899'];
+      [0, 1, 2].forEach(pIdx => {
+        const poleEl = document.getElementById(`hPole${pIdx}`);
+        poleEl.querySelectorAll('.h-disk').forEach(e => e.remove());
+
+        hanoiPoles[pIdx].forEach(dSize => {
+          const d = document.createElement('div');
+          d.className = 'h-disk';
+          d.style.width = `${dSize * 22 + 35}px`;
+          d.style.height = '20px';
+          d.style.background = colors[dSize - 1];
+          d.style.borderRadius = '6px';
+          d.style.marginBottom = '3px';
+          d.style.zIndex = '2';
+          d.style.color = '#000';
+          d.style.fontWeight = 'bold';
+          d.style.fontSize = '11px';
+          d.style.display = 'flex';
+          d.style.justifyContent = 'center';
+          d.style.alignItems = 'center';
+          d.textContent = dSize;
+          poleEl.appendChild(d);
+        });
+      });
+    }
+
+    function onHanoiPoleClick(pIdx) {
+      playArcadeSound('click');
+      const msg = document.getElementById('hanoiMsg');
+      if (hanoiSelectedPole === null) {
+        if (hanoiPoles[pIdx].length === 0) return;
+        hanoiSelectedPole = pIdx;
+        msg.textContent = `Disco ${hanoiPoles[pIdx][hanoiPoles[pIdx].length - 1]} seleccionado. Elige destino.`;
+      } else {
+        if (hanoiSelectedPole !== pIdx) {
+          const src = hanoiPoles[hanoiSelectedPole][hanoiPoles[hanoiSelectedPole].length - 1];
+          const tgt = hanoiPoles[pIdx][hanoiPoles[pIdx].length - 1];
+
+          if (!tgt || src < tgt) {
+            hanoiPoles[hanoiSelectedPole].pop();
+            hanoiPoles[pIdx].push(src);
+            hanoiMoves++;
+            msg.textContent = '¡Movimiento válido!';
+
+            if (hanoiPoles[2].length === hanoiDisksCount) {
+              msg.textContent = '🎉 ¡Felicidades Belén! ¡Nivel superado!';
+              playArcadeSound('win');
+            }
+          } else {
+            msg.textContent = '❌ No puedes colocar un disco mayor sobre uno menor.';
+          }
+        }
+        hanoiSelectedPole = null;
+        updateHanoiDisplay();
+      }
+    }
+
+    async function solveHanoiAuto() {
+      initHanoiPoles();
+      const moves = [];
+      function solve(n, a, c, b) {
+        if (n === 0) return;
+        solve(n - 1, a, b, c);
+        moves.push([a, c]);
+        solve(n - 1, b, c, a);
+      }
+      solve(hanoiDisksCount, 0, 2, 1);
+
+      for (let m of moves) {
+        await new Promise(r => setTimeout(r, 380));
+        const disk = hanoiPoles[m[0]].pop();
+        hanoiPoles[m[1]].push(disk);
+        hanoiMoves++;
+        updateHanoiDisplay();
+        playArcadeSound('click');
+      }
+      document.getElementById('hanoiMsg').textContent = '✨ ¡Completado automáticamente!';
+      playArcadeSound('win');
+    }
+
+    /* ========================================================
+       JUEGO 7: BUBBLE SORT INTERACTIVO Y JUGABLE MANUALMENTE
+       ======================================================== */
+    let bList = [4, 2, 7, 1, 9, 3, 6, 5];
+    let selectedBubbleIdx = null;
+    let bSwapsCount = 0;
+
+    function renderBubbleSortGame() {
+      activeGameTitle.textContent = '🫧 Bubble Sort Jugable & Interactivo';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 620px;">
+          <h2 style="font-family:'Orbitron'; color:#38bdf8; margin-bottom:4px;">BUBBLE SORT INTERACTIVO</h2>
+          <p style="font-size:13px; color:#cbd5e1; margin-bottom:10px;">¡Toca dos números adyacentes para intercambiarlos y ordenarlos tú misma!</p>
+          
+          <div style="font-size:14px; color:#ffd700; margin-bottom:20px;">
+            Intercambios realizados: <strong id="bubbleSwaps">0</strong>
+          </div>
+
+          <div id="bubbleGrid" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:25px;"></div>
+
+          <div id="bubbleStatusText" style="min-height:24px; color:#4ade80; font-weight:600; margin-bottom:20px;">
+            Toca un número para seleccionarlo y luego toca su vecino para intercambiarlos.
+          </div>
+
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <button onclick="shuffleBubbleList()" style="padding:10px 18px; border-radius:12px; border:none; background:#ec4899; color:#fff; font-weight:bold; cursor:pointer;">Mezclar Lista</button>
+            <button onclick="autoSortBubbleList()" style="padding:10px 18px; border-radius:12px; border:none; background:#8b5cf6; color:#fff; font-weight:bold; cursor:pointer;">Ver Solución Automática ✨</button>
+          </div>
+        </div>
+      `;
+      drawPlayableBubble();
+    }
+
+    function drawPlayableBubble() {
+      const grid = document.getElementById('bubbleGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      bList.forEach((num, idx) => {
+        const box = document.createElement('div');
+        box.style.width = '46px';
+        box.style.height = '46px';
+        box.style.borderRadius = '12px';
+        box.style.display = 'flex';
+        box.style.justifyContent = 'center';
+        box.style.alignItems = 'center';
+        box.style.fontFamily = "'Orbitron', sans-serif";
+        box.style.fontSize = '18px';
+        box.style.fontWeight = 'bold';
+        box.style.cursor = 'pointer';
+        box.style.transition = 'all 0.25s';
+
+        if (idx === selectedBubbleIdx) {
+          box.style.background = '#f59e0b';
+          box.style.color = '#000';
+          box.style.transform = 'scale(1.15)';
+          box.style.boxShadow = '0 0 15px #f59e0b';
+        } else {
+          box.style.background = '#1e293b';
+          box.style.color = '#38bdf8';
+          box.style.border = '2px solid rgba(56,189,248,0.3)';
+        }
+
+        box.textContent = num;
+        box.onclick = () => onBubbleClick(idx);
+        grid.appendChild(box);
+      });
+
+      document.getElementById('bubbleSwaps').textContent = bSwapsCount;
+    }
+
+    function onBubbleClick(idx) {
+      playArcadeSound('click');
+      const st = document.getElementById('bubbleStatusText');
+      if (selectedBubbleIdx === null) {
+        selectedBubbleIdx = idx;
+        st.textContent = `Número ${bList[idx]} seleccionado. Toca su vecino para intercambiar.`;
+      } else {
+        if (Math.abs(selectedBubbleIdx - idx) === 1) {
+          // Intercambio de vecinos
+          let temp = bList[selectedBubbleIdx];
+          bList[selectedBubbleIdx] = bList[idx];
+          bList[idx] = temp;
+          bSwapsCount++;
+          st.textContent = `Intercambiaste ${temp} con ${bList[selectedBubbleIdx]}.`;
+
+          // Verificar si ya está ordenado
+          if (isBubbleSorted()) {
+            st.textContent = '🎉 ¡EXCELENTE BELÉN! ¡Has ordenado toda la lista!';
+            playArcadeSound('win');
+          }
+        } else if (selectedBubbleIdx === idx) {
+          st.textContent = 'Selección cancelada.';
+        } else {
+          st.textContent = '⚠️ Solo puedes intercambiar números adyacentes (vecinos).';
+        }
+        selectedBubbleIdx = null;
+      }
+      drawPlayableBubble();
+    }
+
+    function isBubbleSorted() {
+      for (let i = 0; i < bList.length - 1; i++) {
+        if (bList[i] > bList[i + 1]) return false;
+      }
+      return true;
+    }
+
+    function shuffleBubbleList() {
+      bList = bList.sort(() => Math.random() - 0.5);
+      bSwapsCount = 0;
+      selectedBubbleIdx = null;
+      drawPlayableBubble();
+      document.getElementById('bubbleStatusText').textContent = 'Lista mezclada. ¡Intenta ordenarla!';
+    }
+
+    async function autoSortBubbleList() {
+      const n = bList.length;
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+          selectedBubbleIdx = j;
+          drawPlayableBubble();
+          await new Promise(r => setTimeout(r, 200));
+          if (bList[j] > bList[j + 1]) {
+            let temp = bList[j];
+            bList[j] = bList[j + 1];
+            bList[j + 1] = temp;
+            bSwapsCount++;
+            playArcadeSound('click');
+            drawPlayableBubble();
+            await new Promise(r => setTimeout(r, 200));
+          }
+        }
+      }
+      selectedBubbleIdx = null;
+      drawPlayableBubble();
+      document.getElementById('bubbleStatusText').textContent = '✨ ¡Lista ordenada automáticamente!';
+      playArcadeSound('win');
+    }
+
+    /* ========================================================
+       JUEGO 8: PASTELERÍA MÁGICA (SUPER CLICKER CON SENTIDO)
+       ======================================================== */
+    let cakesBaked = 0;
+    let cakesPerClick = 1;
+    let autoOvens = 0;
+    let partyLevel = 1;
+
+    function renderClickerGame() {
+      activeGameTitle.textContent = '🎂 Fábrica de Pasteles de Belén';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 500px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:2px;">FÁBRICA DE CUMPLEAÑOS</h2>
+          <div style="font-size:13px; color:#a78bfa; margin-bottom:15px;">Nivel de Fiesta: <strong id="cakeLevel">1 (Repostera Novata)</strong></div>
+
+          <div style="font-size:36px; font-family:'Orbitron'; color:#ec4899; margin:10px 0;">
+            <span id="cakeTotal">${cakesBaked}</span> 🎂
+          </div>
+          <div style="font-size:12px; color:#38bdf8; margin-bottom:20px;">
+            Por click: +${cakesPerClick} | Horno automático: +${autoOvens}/seg
+          </div>
+
+          <div style="margin:20px 0;">
+            <button id="cakeBakeBtn" onclick="bakeCakeClick()" style="width:130px; height:130px; border-radius:50%; border:4px solid #ffd700; background:linear-gradient(135deg, #ec4899, #f59e0b); font-size:55px; cursor:pointer; box-shadow:0 0 35px rgba(236,72,153,0.6); transition:transform 0.1s;">
+              🎂
+            </button>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+            <button onclick="buyClickUpgrade()" style="padding:10px; border-radius:12px; border:none; background:#8b5cf6; color:#fff; font-weight:bold; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+              <span>🧑‍🍳 Mejorar Espátula (+1/click)</span>
+              <span>Coste: 15 pasteles</span>
+            </button>
+            <button onclick="buyAutoOven()" style="padding:10px; border-radius:12px; border:none; background:#ec4899; color:#fff; font-weight:bold; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+              <span>🔥 Horno Automático (+2/seg)</span>
+              <span>Coste: 50 pasteles</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      if (activeGameLoop) clearInterval(activeGameLoop);
+      activeGameLoop = setInterval(() => {
+        if (autoOvens > 0) {
+          cakesBaked += autoOvens;
+          updateCakeUI();
+        }
+      }, 1000);
+    }
+
+    function bakeCakeClick() {
+      cakesBaked += cakesPerClick;
+      playArcadeSound('click');
+      updateCakeUI();
+
+      const btn = document.getElementById('cakeBakeBtn');
+      btn.style.transform = 'scale(0.92)';
+      setTimeout(() => btn.style.transform = 'scale(1)', 100);
+    }
+
+    function buyClickUpgrade() {
+      if (cakesBaked >= 15) {
+        cakesBaked -= 15;
+        cakesPerClick += 1;
+        playArcadeSound('win');
+        updateCakeUI();
+      } else {
+        alert("Necesitas al menos 15 pasteles para mejorar tu espátula.");
+      }
+    }
+
+    function buyAutoOven() {
+      if (cakesBaked >= 50) {
+        cakesBaked -= 50;
+        autoOvens += 2;
+        playArcadeSound('win');
+        updateCakeUI();
+      } else {
+        alert("Necesitas al menos 50 pasteles para comprar un horno automático.");
+      }
+    }
+
+    function updateCakeUI() {
+      const tot = document.getElementById('cakeTotal');
+      if (tot) tot.textContent = cakesBaked;
+
+      const lvl = document.getElementById('cakeLevel');
+      if (lvl) {
+        if (cakesBaked >= 200) lvl.textContent = '4 (Castillo de Chocolate Infinito 👑)';
+        else if (cakesBaked >= 100) lvl.textContent = '3 (Fiesta Galáctica 🎉)';
+        else if (cakesBaked >= 40) lvl.textContent = '2 (Maestra Pastelera ⭐)';
+      }
+    }
+
+    /* ========================================================
+       JUEGO 9: JUEGO DE MEMORIA DE CARTAS
+       ======================================================== */
+    let mCards = ['🌸', '⭐', '🎈', '🎁', '💖', '👑', '🌸', '⭐', '🎈', '🎁', '💖', '👑'];
+    let mFirst = null, mSecond = null, mFound = 0;
+
+    function renderMemoryGame() {
+      activeGameTitle.textContent = '🃏 Memoria de Cartas';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 440px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:6px;">PAREJAS 3D</h2>
+          <div id="mStatus" style="color:#f472b6; font-weight:bold; margin-bottom:15px;">Encuentra los pares</div>
+          <div id="mGrid" style="display:grid; grid-template-columns:repeat(4, 70px); grid-gap:8px; justify-content:center; margin-bottom:20px;"></div>
+          <button onclick="startMemGame()" style="padding:9px 20px; border-radius:12px; border:none; background:#ec4899; color:#fff; font-weight:bold; cursor:pointer;">Reiniciar</button>
+        </div>
+      `;
+      startMemGame();
+    }
+
+    function startMemGame() {
+      mFound = 0;
+      mFirst = null;
+      mSecond = null;
+      mCards = mCards.sort(() => Math.random() - 0.5);
+      const grid = document.getElementById('mGrid');
+      grid.innerHTML = '';
+      mCards.forEach(val => {
+        const c = document.createElement('div');
+        c.style.cssText = 'width:70px; height:70px; background:#2b1452; border-radius:12px; display:flex; justify-content:center; align-items:center; font-size:28px; cursor:pointer; border:2px solid rgba(255,255,255,0.2);';
+        c.dataset.val = val;
+        c.textContent = '❓';
+        c.onclick = () => onCardPick(c);
+        grid.appendChild(c);
+      });
+      document.getElementById('mStatus').textContent = 'Encuentra los pares';
+    }
+
+    function onCardPick(c) {
+      if (mFirst && mSecond) return;
+      if (c === mFirst || c.classList.contains('done')) return;
+      playArcadeSound('click');
+      c.textContent = c.dataset.val;
+      c.style.background = '#ffd700';
+
+      if (!mFirst) mFirst = c;
+      else {
+        mSecond = c;
+        if (mFirst.dataset.val === mSecond.dataset.val) {
+          mFirst.classList.add('done');
+          mSecond.classList.add('done');
+          mFirst = null;
+          mSecond = null;
+          mFound++;
+          playArcadeSound('win');
+          if (mFound === 6) document.getElementById('mStatus').textContent = '🎉 ¡Completado con éxito, Belén!';
+        } else {
+          setTimeout(() => {
+            mFirst.textContent = '❓';
+            mFirst.style.background = '#2b1452';
+            mSecond.textContent = '❓';
+            mSecond.style.background = '#2b1452';
+            mFirst = null;
+            mSecond = null;
+          }, 800);
+        }
+      }
+    }
+
+    /* ========================================================
+       JUEGO 10: ADIVINA EL NÚMERO
+       ======================================================== */
+    let sNum = 50;
+    let sTries = 0;
+
+    function renderGuessGame() {
+      sNum = Math.floor(Math.random() * 100) + 1;
+      sTries = 0;
+      activeGameTitle.textContent = '🔢 Adivina el Número (1-100)';
+      gameFrame.innerHTML = `
+        <div class="arcade-container" style="max-width: 420px;">
+          <h2 style="font-family:'Orbitron'; color:#ffd700; margin-bottom:8px;">ADIVINA EL NÚMERO</h2>
+          <p style="font-size:13px; color:#cbd5e1; margin-bottom:15px;">Pensé un número entre 1 y 100. ¿Cuál crees que es?</p>
+          <input type="number" id="sGuessInput" min="1" max="100" style="width:130px; padding:10px; border-radius:12px; border:2px solid #ec4899; background:#241442; color:#fff; font-size:18px; text-align:center; outline:none; margin-bottom:15px;" />
+          <br>
+          <button onclick="doGuess()" style="padding:10px 24px; border-radius:12px; border:none; background:#ec4899; color:#fff; font-family:'Orbitron'; font-weight:bold; cursor:pointer;">Adivinar</button>
+          <div id="sGuessMsg" style="margin-top:15px; font-weight:bold; font-size:15px; min-height:25px; color:#fde047;"></div>
+          <div id="sGuessTries" style="font-size:12px; color:#94a3b8; margin-top:6px;">Intentos: 0</div>
+        </div>
+      `;
+    }
+
+    function doGuess() {
+      const inp = document.getElementById('sGuessInput');
+      const val = parseInt(inp.value);
+      if (isNaN(val)) return;
+      playArcadeSound('click');
+      sTries++;
+      document.getElementById('sGuessTries').textContent = `Intentos: ${sTries}`;
+      const msg = document.getElementById('sGuessMsg');
+      if (val === sNum) {
+        msg.textContent = `🎉 ¡Correcto Belén! Lo lograste en ${sTries} intentos.`;
+        msg.style.color = '#4ade80';
+        playArcadeSound('win');
+      } else if (val < sNum) {
+        msg.textContent = '📈 ¡Más alto! El número secreto es mayor.';
+        msg.style.color = '#38bdf8';
+      } else {
+        msg.textContent = '📉 ¡Más bajo! El número secreto es menor.';
+        msg.style.color = '#f43f5e';
+      }
+      inp.value = '';
+      inp.focus();
+    }
+  </script>
+</body>
+</html>
