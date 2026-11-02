@@ -1,11 +1,13 @@
-const CACHE_NAME = 'belen-arcade-v2';
+const CACHE_NAME = 'belen-arcade-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon.jpeg',
-  '../pastel/index.html',
-  '../index.html'
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-192.png',
+  './icon-maskable-512.png',
+  './icon.jpeg'
 ];
 
 self.addEventListener('install', (e) => {

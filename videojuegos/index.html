@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Belén Arcade · El Regalo del Desarrollador 🎮</title>
   <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Belén Arcade" />
   <meta name="theme-color" content="#ec4899" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -426,6 +432,7 @@
       </div>
     </div>
     <div class="header-actions">
+      <button id="btnHeaderInstall" class="btn-nav" style="display:none; background: linear-gradient(135deg, #ec4899, #8b5cf6); border:none; color:#fff; font-weight:700; cursor:pointer;">📲 Instalar App</button>
       <a href="../pastel/index.html" class="btn-nav">🎂 Volver al Pastel</a>
       <a href="../index.html" class="btn-nav">⬅ Inicio</a>
     </div>
@@ -597,7 +604,7 @@
   <div id="pwaModal">
     <div class="pwa-box">
       <div class="pwa-avatar">
-        <img src="icon.jpeg" alt="Asrti Belen Paz" />
+        <img src="icon-192.png" alt="Asrti Belen Paz" />
       </div>
       <h2>¡Bienvenida, Belén! ✨</h2>
       <p>
@@ -611,6 +618,9 @@
         <button class="btn-pwa-browser" id="btnPlayBrowser">
           <span>🌐 Jugar aquí en el navegador</span>
         </button>
+      </div>
+      <div id="pwaManualHelp" style="display:none; margin-top:15px; font-size:12px; line-height:1.5; color:#fbcfe8; background:rgba(236,72,153,0.15); padding:10px 14px; border-radius:12px; border:1px solid rgba(236,72,153,0.3);">
+        💡 <strong>Para instalar manualmente:</strong> En el menú de tu navegador (los <strong>tres puntos ⋮</strong> arriba) selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a pantalla de inicio"</strong>.
       </div>
     </div>
   </div>
@@ -638,34 +648,50 @@
     const pwaModal = document.getElementById('pwaModal');
     const btnInstallPwa = document.getElementById('btnInstallPwa');
     const btnPlayBrowser = document.getElementById('btnPlayBrowser');
+    const btnHeaderInstall = document.getElementById('btnHeaderInstall');
+    const pwaManualHelp = document.getElementById('pwaManualHelp');
 
     let deferredPrompt = null;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
+      if (btnHeaderInstall) btnHeaderInstall.style.display = 'inline-block';
+    });
+
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem('belen_pwa_installed', 'true');
+      pwaModal.classList.add('hidden');
+      if (btnHeaderInstall) btnHeaderInstall.style.display = 'none';
+      deferredPrompt = null;
     });
 
     if (localStorage.getItem('belen_pwa_installed') === 'true') {
       pwaModal.classList.add('hidden');
     }
 
-    btnInstallPwa.addEventListener('click', async () => {
+    async function triggerPwaInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           localStorage.setItem('belen_pwa_installed', 'true');
           pwaModal.classList.add('hidden');
+          if (btnHeaderInstall) btnHeaderInstall.style.display = 'none';
         }
+        deferredPrompt = null;
       } else {
-        localStorage.setItem('belen_pwa_installed', 'true');
-        alert("¡Aplicación lista! Para tenerla en tu escritorio, puedes añadirla como aplicación desde el menú de tu navegador.");
-        pwaModal.classList.add('hidden');
+        if (pwaManualHelp) pwaManualHelp.style.display = 'block';
       }
-    });
+    }
+
+    btnInstallPwa.addEventListener('click', triggerPwaInstall);
+    if (btnHeaderInstall) btnHeaderInstall.addEventListener('click', triggerPwaInstall);
 
     btnPlayBrowser.addEventListener('click', () => {
       pwaModal.classList.add('hidden');
+      if (btnHeaderInstall && !localStorage.getItem('belen_pwa_installed')) {
+        btnHeaderInstall.style.display = 'inline-block';
+      }
       playArcadeSound('chime');
     });
 
